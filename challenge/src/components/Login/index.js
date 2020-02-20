@@ -8,7 +8,7 @@ import firebase from '../firebase';
 const styles = theme => ({
 	main: {
 		width: 'auto',
-		display: 'block', // Fix IE 11 issue.
+		display: 'block', 
 		marginLeft: theme.spacing.unit * 3,
 		marginRight: theme.spacing.unit * 3,
 		[theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -29,7 +29,7 @@ const styles = theme => ({
 		backgroundColor: theme.palette.secondary.main,
 	},
 	form: {
-		width: '100%', // Fix IE 11 issue.
+		width: '100%', 
 		marginTop: theme.spacing.unit,
 	},
 	submit: {
@@ -40,7 +40,7 @@ const styles = theme => ({
 function Login(props) {
 	const { classes } = props
 
-	// I'm produce state using useState.
+	// Creating state using useState.
 	// The second parameter that will keep the first parameter value will change the value.
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -84,12 +84,12 @@ function Login(props) {
 					<Button
 						type="submit"
 						fullWidth
-						variant="outlined"
+						variant="text"
 						color="secondary"
 						component={Link}
 						to="/register"
 						className={classes.submit}>
-						Register
+						¿Don't have an account? Register here
           			</Button>
 				</form>
 			</Paper>

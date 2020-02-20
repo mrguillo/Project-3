@@ -6,9 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import GoalSelect from './GoalSelector';
+import firebase from '../firebase'
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
+  const [firebaseInitialized,setFirebaseInitialized]=React.useState(false)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,10 +20,26 @@ export default function FormDialog() {
     setOpen(false);
   };
 
+  const handleTest = () => {
+    console.log("click");
+    console.log(firebaseInitialized);
+    
+  };
+
+  React.useEffect(()=>{
+
+    firebase.isInitialized().then(val=>{
+        setFirebaseInitialized(val)
+    })
+})
+
   return (
     <div>
       <Button variant="outlined" color="success" onClick={handleClickOpen}>
         Submit activity
+      </Button>
+      <Button variant="outlined" color="success" onClick={handleTest}>
+        Test
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Submit an activity</DialogTitle>

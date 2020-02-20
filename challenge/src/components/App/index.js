@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react';
-
 import HomePage from '../HomePage';
 import Dashboard from '../Dashboard';
 import Register from '../Register';
 import Login from '../Login';
+import Exercises from '../Exercises'
 
 import firebase from '../firebase'
 
@@ -32,20 +32,36 @@ function App(props){
     })
 
     //Process of displaying components according to firebase connection result
-    return firebaseInitialized!==false?(
+    return firebaseInitialized !== false ? (
        <MuiThemeProvider theme={theme}>
            <CssBaseline/>
            <Router>
                <Switch>
+                   {console.log('FIREBASE INITIALIZED',firebaseInitialized)}
                    {/* Routing according to the path entered */}
                    <Route exact path='/' component={HomePage} />
                    <Route exact path='/register' component={Register} />
                    <Route exact path='/login' component={Login} />
                    <Route exact path='/dashboard' component={Dashboard} />
+                   <Route exact path='/exercises' component={Exercises} />
                </Switch>
            </Router>
        </MuiThemeProvider>
-    ):<div id="loader"><CircularProgress/></div>
+    ) : (
+        <MuiThemeProvider theme={theme}>
+            <CssBaseline/>
+            <Router>
+                <Switch>
+                    {/* Routing according to the path entered */}
+                    <Route exact path='/' component={HomePage} />
+                    <Route exact path='/register' component={Register} />
+                    <Route exact path='/login' component={Login} />
+                    <Route exact path='/dashboard' component={Login} />
+                    <Route exact path='/exercises' component={Exercises} />
+                </Switch>
+            </Router>
+        </MuiThemeProvider>
+        )
 }
 
 export default App /*export to access from other files.*/
