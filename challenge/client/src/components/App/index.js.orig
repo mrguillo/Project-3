@@ -1,4 +1,3 @@
-<<<<<<< HEAD:challenge/src/components/App/index.js
 import React,{ useState, useEffect, Component } from 'react'
 
 import HomePage from '../HomePage'
@@ -7,14 +6,12 @@ import Register from '../Register'
 import Login from '../Login'
 import NotFound from '../NotFound'
 import Logout from '../Logout'
-=======
 import React,{useState,useEffect} from 'react';
 import HomePage from '../HomePage';
 import Dashboard from '../Dashboard';
 import Register from '../Register';
 import Login from '../Login';
 import Exercises from '../Exercises'
->>>>>>> master:challenge/client/src/components/App/index.js
 
 import firebase from '../firebase'
 
@@ -67,7 +64,6 @@ function App(props){
                    <Route exact path='/' component={HomePage} />
                    <Route exact path='/register' component={Register} />
                    <Route exact path='/login' component={Login} />
-<<<<<<< HEAD:challenge/src/components/App/index.js
                    {/* <Route exact path='/dashboard' component={Dashboard} /> */}
                    <Route exact path='/logout' component={Logout} />
                    <PrivateRoute exact path="/dashboard" component={Dashboard} auth={auth} />
@@ -80,7 +76,6 @@ function App(props){
 
 
 
-=======
                    <Route exact path='/dashboard' component={Dashboard} />
                    <Route exact path='/exercises' component={Exercises} />
                </Switch>
@@ -101,7 +96,6 @@ function App(props){
             </Router>
         </MuiThemeProvider>
         )
->>>>>>> master:challenge/client/src/components/App/index.js
 }
 
 export default App /*export to access from other files.*/

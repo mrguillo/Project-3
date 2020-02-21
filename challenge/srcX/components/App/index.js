@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import HomePage from '../HomePage'
 import Dashboard from '../Dashboard'
 import Register from '../Register'

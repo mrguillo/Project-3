@@ -1,20 +1,10 @@
-<<<<<<< HEAD:challenge/src/components/App/index.js
-import React,{ useState, useEffect, Component } from 'react'
-
-import HomePage from '../HomePage'
-import Dashboard from '../Dashboard'
-import Register from '../Register'
-import Login from '../Login'
-import NotFound from '../NotFound'
-import Logout from '../Logout'
-=======
 import React,{useState,useEffect} from 'react';
 import HomePage from '../HomePage';
 import Dashboard from '../Dashboard';
 import Register from '../Register';
 import Login from '../Login';
 import Exercises from '../Exercises'
->>>>>>> master:challenge/client/src/components/App/index.js
+import NotFound from '../NotFound'
 
 import firebase from '../firebase'
 
@@ -25,6 +15,7 @@ import {CssBaseline,CircularProgress} from '@material-ui/core';
 /*required components for routing*/
 import {BrowserRouter as Router,Switch,Route, Redirect} from 'react-router-dom';
 import { auth } from 'firebase'
+import Logout from '../Logout';
 
 /*default material-ui theme generation*/
 const theme=createMuiTheme()
@@ -57,36 +48,7 @@ function App(props){
     })
 
     //Process of displaying components according to firebase connection result
-    return firebaseInitialized !== false ? (
-       <MuiThemeProvider theme={theme}>
-           <CssBaseline/>
-           <Router>
-               <Switch>
-                   {console.log('FIREBASE INITIALIZED',firebaseInitialized)}
-                   {/* Routing according to the path entered */}
-                   <Route exact path='/' component={HomePage} />
-                   <Route exact path='/register' component={Register} />
-                   <Route exact path='/login' component={Login} />
-<<<<<<< HEAD:challenge/src/components/App/index.js
-                   {/* <Route exact path='/dashboard' component={Dashboard} /> */}
-                   <Route exact path='/logout' component={Logout} />
-                   <PrivateRoute exact path="/dashboard" component={Dashboard} auth={auth} />
-                   <Route exact component={NotFound} />
-               </Switch>
-           </Router>
-       </MuiThemeProvider>
-    ):<div id="loader"><CircularProgress/></div>
-
-
-
-
-=======
-                   <Route exact path='/dashboard' component={Dashboard} />
-                   <Route exact path='/exercises' component={Exercises} />
-               </Switch>
-           </Router>
-       </MuiThemeProvider>
-    ) : (
+    return firebaseInitialized!==false?(
         <MuiThemeProvider theme={theme}>
             <CssBaseline/>
             <Router>
@@ -95,13 +57,13 @@ function App(props){
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/register' component={Register} />
                     <Route exact path='/login' component={Login} />
-                    <Route exact path='/dashboard' component={Login} />
-                    <Route exact path='/exercises' component={Exercises} />
+                    <Route exact path='/dashboard' component={Dashboard} />
+                    <Route exact path='/logout' component={Logout} />
+                    <Route exact component={NotFound} />
                 </Switch>
             </Router>
         </MuiThemeProvider>
-        )
->>>>>>> master:challenge/client/src/components/App/index.js
+     ):<div id="loader"><CircularProgress/></div>
 }
 
 export default App /*export to access from other files.*/

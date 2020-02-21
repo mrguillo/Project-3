@@ -4,13 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/mrguillo/Project-3">
+        Our Github repo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -47,10 +48,10 @@ export default function StickyFooter() {
           Uh Oh!
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
-          {'Not to worry. You can either head back to our home page, or go train a litle bit more'}
+          {'Not to worry. You can either head back to our home page, or go train a little bit more.'}
 
         </Typography>
-        <Typography variant="body1">Challenge Me website. Head back to the home page.</Typography>
+        <Link color="inherit" href="/"><ExitToAppIcon fontSize={'inherit'}/> Head back to the Challenge Me home page.</Link>
       </Container>
     </div>
   );

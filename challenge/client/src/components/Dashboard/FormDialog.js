@@ -38,9 +38,9 @@ export default function FormDialog() {
       <Button variant="outlined" color="success" onClick={handleClickOpen}>
         Submit activity
       </Button>
-      <Button variant="outlined" color="success" onClick={handleTest}>
+      {/* <Button variant="outlined" color="success" onClick={handleTest}>
         Test
-      </Button>
+      </Button> */}
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Submit an activity</DialogTitle>
         <DialogContent>

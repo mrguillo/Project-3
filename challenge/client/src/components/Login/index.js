@@ -65,12 +65,12 @@ function Login(props) {
 					<FormControl margin="normal" required fullWidth>
 						<InputLabel htmlFor="email">Email Address</InputLabel>
 						{/* When the e-mail field is changed, setEmail will run and assign the e-mail to the value in the input. */}
-						<Input id="email" name="email" autoComplete="off" autoFocus value={email} onChange={e => setEmail(e.target.value)}  />
+						<Input id="email" name="email" autoComplete="on" autoFocus value={email} onChange={e => setEmail(e.target.value)}  />
 					</FormControl>
 					<FormControl margin="normal" required fullWidth>
 						<InputLabel htmlFor="password">Password</InputLabel>
 						{/* When the password field is changed, setPAssword will run and assign the password to the value in the input. */}
-						<Input name="password" type="password" id="password" autoComplete="off" value={password} onChange={e => setPassword(e.target.value)}/>
+						<Input name="password" type="password" id="password" autoComplete="on" value={password} onChange={e => setPassword(e.target.value)}/>
 					</FormControl>
 					<Button
 						type="submit"

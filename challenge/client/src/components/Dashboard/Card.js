@@ -13,9 +13,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CustomizedRatings from "./Rating";
 import FormDialog from "./FormDialog";
 import Divider from "@material-ui/core/Divider";
+import firebase from "../firebase";
 
-import Box from '@material-ui/core/Box';
-
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,17 +43,26 @@ const useStyles = makeStyles(theme => ({
 export default function UserCard() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  React.useEffect(() => {
+    firebase.isInitialized().then(val => {
+      setFirebaseInitialized(val);
+    });
+  });
+
+  const avatarLetter = String(firebaseInitialized.displayName);
 
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            G
+            {avatarLetter[0]}
           </Avatar>
         }
         action={
@@ -61,14 +70,14 @@ export default function UserCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Guillermo"
+        title={firebaseInitialized.displayName}
         subheader="This week position: #1"
       />
       <CustomizedRatings />
-        <Box textAlign="justify" m={1}>
-               Your balance: +$100
+      <Box textAlign="justify" m={1}>
+        Your balance: +$100
       </Box>
-        <Divider variant="middle" />
+      <Divider variant="middle" />
 
       <CardContent>
         <FormDialog />
