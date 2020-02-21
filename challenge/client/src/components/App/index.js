@@ -4,6 +4,8 @@ import Dashboard from '../Dashboard';
 import Register from '../Register';
 import Login from '../Login';
 import Exercises from '../Exercises'
+import Challenges from '../../pages/Challenges'
+import CreateChallenge from '../../pages/CreateChallenge'
 
 import firebase from '../firebase'
 
@@ -44,6 +46,8 @@ function App(props){
                    <Route exact path='/login' component={Login} />
                    <Route exact path='/dashboard' component={Dashboard} />
                    <Route exact path='/exercises' component={Exercises} />
+                   <Route exact path='/challenges' component={Challenges} />
+                   <Route exact path='/challenges_create' component={CreateChallenge} />
                </Switch>
            </Router>
        </MuiThemeProvider>
