@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { Typography, Paper, Avatar, Button } from '@material-ui/core';
 import VerifiedUserOutlined from '@material-ui/icons/VerifiedUserOutlined';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
+import MenuAppBar from '../Dashboard/AppBar';
 
 const styles = theme => ({
 	main: {
@@ -37,6 +38,7 @@ function HomePage(props) {
 
 	return (
 		<main className={classes.main}>
+			{/* <MenuAppBar /> */}
 			<Paper className={classes.paper}>
 				<Avatar className={classes.avatar}>
 					<VerifiedUserOutlined />

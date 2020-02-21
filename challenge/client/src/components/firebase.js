@@ -35,7 +35,7 @@ var firebaseConfig = {
         return this.auth.signOut()
     };
 
-    async register(name,email,pass){
+    async register(name,email,pass, group){
         //firebase register function
         await this.auth.createUserWithEmailAndPassword(email,pass)
         //We've updated the username of the register result.
@@ -44,17 +44,18 @@ var firebaseConfig = {
         })
     };
 
-    addFruit(fruit){
-        //user presence control
-        if(!this.auth.currentUser){
-            return alert('Not authorized')
-        }
+    // addGroup(name,email,group){
+    //     //user presence control
+    //     if(!this.auth.currentUser){
+    //         return alert('Not authorized')
+    //     }
 
-        //Adding documents to the collection of pckurdu
-        return this.db.doc(`pckurdu/${this.auth.currentUser.uid}`).set({
-            fruit:fruit
-        })
-    };
+    //     //Adding documents to the collection of firebase pckurdu db
+    //     return this.db.doc(`challengedb/${this.auth.currentUser.uid}`).set({
+    //         group:group,
+    //         email: email
+    //     })
+    // };
 
     isInitialized(){
         //hold until the process ends
@@ -66,14 +67,14 @@ var firebaseConfig = {
 
     getCurrentUsername() {
         //return displayName if user is logged in
-		return this.auth.currentUser && this.auth.currentUser.displayName
+        return this.auth.currentUser && this.auth.currentUser.displayName
     };   
 
-    async getCurrentUserFruit() {
-        //Access to the fruit field in the user uid document in the pckurdu collection.
-        const fruit = await this.db.doc(`pckurdu/${this.auth.currentUser.uid}`).get()
+    async getCurrentUserGroup() {
+        //Access to the group field in the user uid document in the pckurdu collection.
+        const group = await this.db.doc(`pckurdu/${this.auth.currentUser.uid}`).get()
         //export data
-		return fruit.get('fruit')
+		return group.get('group')
     };
 };
 

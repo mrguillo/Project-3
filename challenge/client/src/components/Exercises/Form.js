@@ -18,8 +18,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://github.com/mrguillo/Project-3">
+        My Github repo
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Set a Manager', 'Set group goals', 'Generate invitation code'];
 
 function getStepContent(step) {
   switch (step) {
@@ -97,14 +97,14 @@ export default function Checkout() {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            Create a Challenge Me new group
           </Typography>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Checkout
+            New group
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
@@ -120,8 +120,8 @@ export default function Checkout() {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Your invitation number is #2001539. We have emailed this number to you, and will
+                  send you an update everytime somebody joins it.
                 </Typography>
               </React.Fragment>
             ) : (

@@ -14,11 +14,12 @@ import CustomizedRatings from "./Rating";
 import FormDialog from "./FormDialog";
 import Divider from "@material-ui/core/Divider";
 
-import Box from "@material-ui/core/Box";
+import Box from '@material-ui/core/Box';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 345
+    maxWidth: 1000
   },
   media: {
     height: 0,
@@ -64,10 +65,11 @@ export default function UserCard() {
         subheader="This week position: #1"
       />
       <CustomizedRatings />
-      <Box textAlign="justify" m={1}>
-        Your balance: +$100
+        <Box textAlign="justify" m={1}>
+               Your balance: +$100
       </Box>
-      <Divider variant="middle" />
+        <Divider variant="middle" />
+
       <CardContent>
         <FormDialog />
       </CardContent>
