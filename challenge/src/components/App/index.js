@@ -1,9 +1,11 @@
-import React,{useState,useEffect} from 'react';
+import React,{ useState, useEffect, Component } from 'react'
 
-import HomePage from '../HomePage';
-import Dashboard from '../Dashboard';
-import Register from '../Register';
-import Login from '../Login';
+import HomePage from '../HomePage'
+import Dashboard from '../Dashboard'
+import Register from '../Register'
+import Login from '../Login'
+import NotFound from '../NotFound'
+import Logout from '../Logout'
 
 import firebase from '../firebase'
 
@@ -12,13 +14,27 @@ import {MuiThemeProvider,createMuiTheme} from '@material-ui/core/styles';
 import {CssBaseline,CircularProgress} from '@material-ui/core';
 
 /*required components for routing*/
-import {BrowserRouter as Router,Switch,Route} from 'react-router-dom';
+import {BrowserRouter as Router,Switch,Route, Redirect} from 'react-router-dom';
+import { auth } from 'firebase'
 
 /*default material-ui theme generation*/
 const theme=createMuiTheme()
 
 /*It is created as a component function in the react hooks.*/
 function App(props){
+
+    const PrivateRoute = ({ auth, component: Component, ...rest }) => {
+        return(
+            <Route
+            {...rest}
+            render={
+                props => auth ?
+                (<Component {...props}/>)
+                :(<Redirect to={{pathname: "/"}}/>)
+            }
+            />
+        )
+    }
 
     //Let's use the useState object to keep the firebase state
     const [firebaseInitialized,setFirebaseInitialized]=useState(false)
@@ -41,11 +57,18 @@ function App(props){
                    <Route exact path='/' component={HomePage} />
                    <Route exact path='/register' component={Register} />
                    <Route exact path='/login' component={Login} />
-                   <Route exact path='/dashboard' component={Dashboard} />
+                   {/* <Route exact path='/dashboard' component={Dashboard} /> */}
+                   <Route exact path='/logout' component={Logout} />
+                   <PrivateRoute exact path="/dashboard" component={Dashboard} auth={auth} />
+                   <Route exact component={NotFound} />
                </Switch>
            </Router>
        </MuiThemeProvider>
     ):<div id="loader"><CircularProgress/></div>
+
+
+
+
 }
 
 export default App /*export to access from other files.*/
