@@ -37,11 +37,12 @@ var firebaseConfig = {
 
     async register(name,email,pass, group){
         //firebase register function
-        await this.auth.createUserWithEmailAndPassword(email,pass)
+        let createUserFirebase = await this.auth.createUserWithEmailAndPassword(email,pass)
         //We've updated the username of the register result.
-        return this.auth.currentUser.updateProfile({
+        let updateProfileFirebase = await this.auth.currentUser.updateProfile({
             displayName:name
         })
+        return createUserFirebase
     };
 
     // addGroup(name,email,group){
