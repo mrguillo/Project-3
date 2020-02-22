@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserCard() {
+export default function UserCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
@@ -49,13 +49,13 @@ export default function UserCard() {
     setExpanded(!expanded);
   };
 
-  React.useEffect(() => {
-    firebase.isInitialized().then(val => {
-      setFirebaseInitialized(val);
-    });
-  });
+  // React.useEffect(() => {
+  //   firebase.isInitialized().then(val => {
+  //     setFirebaseInitialized(val);
+  //   });
+  // });
 
-  const avatarLetter = String(firebaseInitialized.displayName);
+  const avatarLetter = String(props.displayName);
 
   return (
     <Card className={classes.root}>
@@ -70,7 +70,7 @@ export default function UserCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title={firebaseInitialized.displayName}
+        title={props.displayName}
         subheader="This week position: #1"
       />
       <CustomizedRatings />

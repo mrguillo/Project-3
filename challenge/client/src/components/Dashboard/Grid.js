@@ -12,6 +12,10 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Footer from "./Footer";
+import Challenges from "./Challenges";
+import CreateChallenge from "./CreateChallenges";
+import useUserModel from "../../utils/useUserModel";
+import UserContext from "../../utils/UserContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,8 +28,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function FullWidthGrid() {
+export default function FullWidthGrid(props) {
   const classes = useStyles();
+  console.log("grid: " + props.displayName)
+
+  const userModel = useUserModel(); // Context
 
   return (
     <React.Fragment>
@@ -41,7 +48,7 @@ export default function FullWidthGrid() {
               <MsgSnackbar />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <UserCard />
+              <UserCard displayName={props.displayName}/>
             </Grid>
             <Grid item xs={12} sm={8}>
               <ChartTable />
@@ -54,6 +61,10 @@ export default function FullWidthGrid() {
             </Grid>
             <Grid item xs={12} sm={12}>
               <Footer />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Challenges />
+              <CreateChallenge />
             </Grid>
           </Grid>
         </div>

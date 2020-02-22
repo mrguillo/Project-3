@@ -5,8 +5,10 @@ import Register from "../Register";
 import Login from "../Login";
 import Exercises from "../Exercises";
 import NotFound from "../NotFound";
-import Challenges from "../../pages/Challenges";
-import CreateChallenge from "../../pages/CreateChallenge";
+// import Challenges from "../../pages/Challenges";
+// import Challenges from "../Dashboard/Challenges";
+// import CreateChallenge from "../../pages/CreateChallenge";
+// import CreateChallenge from "../CreateChallenge";
 
 import firebase from "../firebase";
 
@@ -29,6 +31,7 @@ const theme = createMuiTheme();
 
 /*It is created as a component function in the react hooks.*/
 function App(props) {
+  let displayName = "";
   const PrivateRoute = ({ auth, component: Component, ...rest }) => {
     return (
       <Route
@@ -44,10 +47,9 @@ function App(props) {
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
   function initApp() {
-
       if (firebaseInitialized) {
         // User is signed in.
-        var displayName = firebaseInitialized.displayName;
+         displayName = firebaseInitialized.displayName;
         var email = firebaseInitialized.email;
         var photoURL = firebaseInitialized.photoURL;
         var uid = firebaseInitialized.uid;
@@ -82,7 +84,7 @@ function App(props) {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard" component={() => <Dashboard displayName={displayName} />} />
           <Route exact path="/logout" component={Logout} />
           <Route exact component={NotFound} />
         </Switch>
