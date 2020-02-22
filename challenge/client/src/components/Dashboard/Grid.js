@@ -24,9 +24,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function FullWidthGrid() {
+export default function FullWidthGrid(props) {
   const classes = useStyles();
-
+console.log("grid: " + props.displayName)
   return (
     <React.Fragment>
       <CssBaseline />
@@ -41,7 +41,7 @@ export default function FullWidthGrid() {
               <MsgSnackbar />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <UserCard />
+              <UserCard displayName={props.displayName}/>
             </Grid>
             <Grid item xs={12} sm={8}>
               <ChartTable />

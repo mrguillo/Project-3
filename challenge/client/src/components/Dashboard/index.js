@@ -43,10 +43,12 @@ const styles = theme => ({
 	},
 })
 
+
+
 export default function Dashboard(props) {
 
     const { classes } = props
-
+console.log(props.displayName);
     if(!firebase.getCurrentUsername()) {
 		// not logged in
 		alert('Please login first')
@@ -59,7 +61,7 @@ export default function Dashboard(props) {
     <React.Fragment>
       <CssBaseline />
 
-        <FullWidthGrid />
+        <FullWidthGrid displayName={props.displayName}/>
 
     </React.Fragment>
   );
