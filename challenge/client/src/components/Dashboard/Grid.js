@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -34,11 +34,16 @@ export default function FullWidthGrid(props) {
 
   const userModel = useUserModel(); // Context
 
+  // useEffect(() => {
+  //   console.log(userModel);
+  // }, [userModel]);
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
+        <UserContext.Provider value={userModel}>
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -68,6 +73,7 @@ export default function FullWidthGrid(props) {
             </Grid>
           </Grid>
         </div>
+        </UserContext.Provider>
       </Container>
     </React.Fragment>
   );

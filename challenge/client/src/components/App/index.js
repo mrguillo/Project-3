@@ -5,6 +5,7 @@ import Register from "../Register";
 import Login from "../Login";
 import Exercises from "../Exercises";
 import NotFound from "../NotFound";
+import API from "../../utils/API"
 // import Challenges from "../../pages/Challenges";
 // import Challenges from "../Dashboard/Challenges";
 // import CreateChallenge from "../../pages/CreateChallenge";
@@ -46,31 +47,32 @@ function App(props) {
   //Let's use the useState object to keep the firebase state
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
-  function initApp() {
-      if (firebaseInitialized) {
-        // User is signed in.
-         displayName = firebaseInitialized.displayName;
-        var email = firebaseInitialized.email;
-        var photoURL = firebaseInitialized.photoURL;
-        var uid = firebaseInitialized.uid;
-        console.log(
-          displayName,
-          email,
-          photoURL,
-          uid
-        );
-      } else {
-        // User is signed out.
-        // ...
-        console.log("user is signed out");
-      }
-  }
-  initApp();
+  // function initApp() {
+  //     if (firebaseInitialized) {
+  //       // User is signed in.
+  //        displayName = firebaseInitialized.displayName;
+  //       var email = firebaseInitialized.email;
+  //       var photoURL = firebaseInitialized.photoURL;
+  //       var uid = firebaseInitialized.uid;
+  //       console.log(
+  //         displayName,
+  //         email,
+  //         photoURL,
+  //         uid
+  //       );
+  //     } else {
+  //       // User is signed out.
+  //       // ...
+  //       console.log("user is signed out");
+  //     }
+  // }
+  // initApp();
 
   //Let's use useEffect to run the isInitialized function before the page loads.
   useEffect(() => {
     firebase.isInitialized().then(val => {
       setFirebaseInitialized(val);
+      API.getUserInfo(firebaseInitialized.uid).then(user => {console.log("USER: " + user)});
     });
   });
 
