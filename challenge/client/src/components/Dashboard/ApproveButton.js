@@ -19,12 +19,12 @@ export default function ApprovedBtn() {
     <div className={classes.root}>
 
       <Button variant="outlined" color="primary" href="#contained-buttons">
-        Approve this activity
+        Approve
       </Button>
 
-        <IconButton aria-label="delete" className={classes.margin}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
+      <Button variant="outlined" color="secondary" href="#contained-buttons">
+        Reject
+      </Button>
     </div>
   );
 }

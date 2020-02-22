@@ -1,52 +1,44 @@
 import React from "react";
 import AppBarBase from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
+// import Toolbar from "@material-ui/core/Toolbar";
+// import Typography from "@material-ui/core/Typography";
+// import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+// import Drawer from "@material-ui/core/Drawer";
+import {
+  MenuItem,
+  Toolbar,
+  IconButton,
+  Typography,
+  Hidden,
+  Drawer,
+  CssBaseline,
+  MenuList
+} from "@material-ui/core";
 
-const useStyles = makeStyles(
-  theme => (
-    console.log(theme),
-    {
-      menuButton: {
-        marginLeft: "auto"
-      },
-      listItem: {
-        textAlign: "center"
-      },
-      drawerPaper: {
-        marginTop: theme.mixins.toolbar.minHeight
-      },
-      drawerModal: {
-        zIndex: theme.zIndex.appBar
-      }
-    }
-  )
-);
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+  
+});
 
 const FullList = () => {
   const classes = useStyles();
   return (
-    <List>
-      <ListItem className={classes.listItem}>
-        <ListItemText>Home</ListItemText>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <ListItemText>Create group</ListItemText>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <ListItemText>My Account</ListItemText>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <ListItemText>Logout</ListItemText>
-      </ListItem>
-    </List>
+    <MenuList>
+      <MenuItem component={Link} to="/">
+        HOME
+      </MenuItem>
+      <MenuItem component={Link} to="/logout">
+        LOGOUT
+      </MenuItem>
+    </MenuList>
   );
 };
 
@@ -63,9 +55,6 @@ export default function AppBar() {
     <React.Fragment>
       <AppBarBase position="relative" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" color="inherit">
-            Challenge Me
-          </Typography>
           <IconButton
             color="inherit"
             aria-label="Open drawer"
@@ -74,6 +63,9 @@ export default function AppBar() {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" color="inherit">
+            Challenge Me
+          </Typography>
         </Toolbar>
       </AppBarBase>
       <Drawer
