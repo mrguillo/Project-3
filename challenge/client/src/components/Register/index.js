@@ -4,6 +4,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link, withRouter } from 'react-router-dom';
 import firebase from '../firebase';
+import API from '../../utils/API';
 
 
 const styles = theme => ({
@@ -115,10 +116,22 @@ function Register(props) {
 
 		try{
 			//The register in the Firebase class is running with useState data.
-			await firebase.register(name,email,password)
-
+			firebase.register(name,email,password).then(firebaseObject =>{
+				
+				API.createUser({
+					username:firebaseObject.user.displayName,
+					email:firebaseObject.user.email,
+					firebaseId:firebaseObject.user.uid
+				}).then((err,results) =>{
+					if(err){
+						console.log(err)
+					}
+					props.history.replace('/dashboard')
+				}
+				)
+			}
+			)
 			//If there are no errors, they are redirected to the dashboard page.
-			props.history.replace('/dashboard')
 		}catch(err){
 			//create an alert instantly error
 			alert(err.message)
