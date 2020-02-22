@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import Footer from "./Footer";
 import Challenges from "./Challenges";
 import CreateChallenge from "./CreateChallenges";
+import useUserModel from "../../utils/useUserModel";
+import UserContext from "../../utils/UserContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +30,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function FullWidthGrid(props) {
   const classes = useStyles();
-console.log("grid: " + props.displayName)
+  console.log("grid: " + props.displayName)
+
+  const userModel = useUserModel(); // Context
+
   return (
     <React.Fragment>
       <CssBaseline />

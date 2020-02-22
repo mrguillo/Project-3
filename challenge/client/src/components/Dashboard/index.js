@@ -48,14 +48,14 @@ const styles = theme => ({
 export default function Dashboard(props) {
 
     const { classes } = props
-console.log(props.displayName);
-    if(!firebase.getCurrentUsername()) {
+	console.log(props.displayName);
+	
+	if(!firebase.getCurrentUsername()) {
 		// not logged in
 		alert('Please login first')
 		props.history.replace('/login')
 		return null
     }
-
 
   return (
     <React.Fragment>
