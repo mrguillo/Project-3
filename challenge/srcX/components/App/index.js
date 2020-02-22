@@ -3,7 +3,7 @@ import HomePage from '../HomePage'
 import Dashboard from '../Dashboard'
 import Register from '../Register'
 import Login from '../Login'
-import NotFound from '../NotFound'
+import NotFound from '../../../client/src/components/NotFound'
 import Logout from '../Logout'
 import firebase from '../firebase'
 

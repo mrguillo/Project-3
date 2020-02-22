@@ -48,8 +48,8 @@ function Login(props) {
 	//When the form is submitted it will run
 	function onSubmit(e){
 		e.preventDefault()//blocks the postback event of the page
-		console.log('email: '+email)
-		console.log('password: '+password)
+		console.log('email: '+email) // esto lo quitamos cuando entremos en producción
+		console.log('password: '+password) // esto lo quitamos cuando entremos en producción
 	}
 
 	return (
