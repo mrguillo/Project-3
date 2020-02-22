@@ -19,6 +19,7 @@ module.exports = {
   },
   createChallenge: function(req,res){
     console.log("hit backend controller")
+    // res.send("hit backend controller")
     // db.Users
     //   .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
     //     var newChallenge = {
@@ -28,10 +29,8 @@ module.exports = {
     //       unitCost: req.body.unitCost,
     //       currency: req.body.currency,
     //       rules: req.body.rules,
-    //       // owner: userInfo._id,
-    //       owner: "MZikI2bpb5cUhC20GkN8YoOu5Kr1",
-    //       // participants: [userInfo._id]
-    //       participants: ["MZikI2bpb5cUhC20GkN8YoOu5Kr1"]
+    //       owner: userInfo._id,
+    //       participants: [userInfo._id]
     //     }  
     //     db.Challenges
     //       .create(newChallenge)
@@ -39,6 +38,13 @@ module.exports = {
     //         res.json(dbModel)
     //       })
     //     })
+    console.log(req.body.name);
+    console.log(req.body.duration);
+    console.log(req.body.unitCost);
+    console.log(req.body.currency);
+    console.log(req.body.rules);
+    console.log(req.body.owner);
+
   },
   joinChallenge: function(req,res){
     db.Users
