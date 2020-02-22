@@ -3,6 +3,7 @@ const db = require("../models");
 // Defining methods for the booksController
 module.exports = {
   createUser: function(req,res){
+    console.log(req.body)
     db.Users
       .create(req.body)
       .then(dbModel => res.json(dbModel))
