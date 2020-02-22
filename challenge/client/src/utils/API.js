@@ -6,6 +6,8 @@ export default {
       return axios.post("/api/challenges/create", challengeData);
     },
     getUserInfo: function(userID) {
+      console.log("axios jalando");
+      console.log(axios.get("/api/users/find/" + userID))
       return axios.get("/api/users/find/" + userID);
     },
 };
