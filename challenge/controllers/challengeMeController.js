@@ -10,7 +10,7 @@ module.exports = {
   },
   findUser: function(req,res){
     db.Users
-      .findOne({firebaseId: req.body.firebaseId})
+      .findOne({firebaseId: req.params.firebaseId})
       .populate({
         path: "challenges",
         populate:{
@@ -83,7 +83,7 @@ module.exports = {
   },
   findChallenge: function(req,res){
     db.Challenges
-      .findOne({_id:req.body.challengeId})
+      .findOne({_id:req.params.challengeId})
       .populate({
         path: "participants",
         populate:{
@@ -97,5 +97,11 @@ module.exports = {
         }
         res.json(challenge)
       })
+  },
+  createActivity: function(req,res){
+    res.send("Activity creation route")
+  },
+  activityApproval: function(req,res){
+    res.send("Activity approval route")
   }
 };
