@@ -3,7 +3,7 @@ import { Typography, Paper, Avatar, Button } from '@material-ui/core';
 import VerifiedUserOutlined from '@material-ui/icons/VerifiedUserOutlined';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
-import MenuAppBar from '../components/Dashboard/AppBar';
+// import MenuAppBar from '../components/Dashboard/AppBar';
 
 const styles = theme => ({
 	main: {
