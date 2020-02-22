@@ -10,7 +10,7 @@ router.route("/create")
 router.route("/join")
   .post(challengeMeController.joinChallenge)
 
-router.route("/find")
+router.route("/find/:challengeId")
   .get(challengeMeController.findChallenge)
 
 module.exports = router;

@@ -3,9 +3,12 @@ const challengeMeController = require("../../controllers/challengeMeController")
 
 // Matches with "/api/books"
 router.route("/create")
-  .post(challengeMeController.createUser)
-
-router.route("/find/:firebaseId")
-  .get(challengeMeController.findUser)
+  .post(
+    challengeMeController.createActivity
+    )
+router.route("/approval")
+    .post(
+        challengeMeController.activityApproval
+    )
 
 module.exports = router;
