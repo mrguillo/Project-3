@@ -1,10 +1,10 @@
-import React,{useState} from '../../node_modules/react';
-import { Typography, Paper, Avatar, Button, FormControl, Input, InputLabel } from '../../node_modules/@material-ui/core';
-import LockOutlinedIcon from '../../node_modules/@material-ui/icons/LockOutlined';
-import withStyles from '../../node_modules/@material-ui/core/styles/withStyles';
-import { Link, withRouter } from '../../node_modules/react-router-dom';
-import firebase from '../components/firebase';
-import API from "../utils/API";
+import React,{useState} from '../../../node_modules/react';
+import { Typography, Paper, Avatar, Button, FormControl, Input, InputLabel } from '../../../node_modules/@material-ui/core';
+import LockOutlinedIcon from '../../../node_modules/@material-ui/icons/LockOutlined';
+import withStyles from '../../../node_modules/@material-ui/core/styles/withStyles';
+import { Link, withRouter } from '../../../node_modules/react-router-dom';
+import firebase from '../firebase';
+import API from "../../utils/API";
 
 
 const styles = theme => ({
@@ -49,7 +49,15 @@ function CreateChallenge(props) {
 	const [unitCost, setUnitCost] = useState('')
 	const [currency, setCurrency] = useState('')
 	const [rules, setRules] = useState('')
+	const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
 	
+	React.useEffect(() => {
+		firebase.isInitialized().then(val => {
+		  setFirebaseInitialized(val);
+		});
+	});
+
+
 
 	//When the form is submitted it will run
 	function onSubmit(e){
@@ -131,13 +139,16 @@ function CreateChallenge(props) {
 		console.log(unitCost)
 		console.log(currency)
 		console.log(rules)
+		console.log(firebaseInitialized.uid)
 
 		API.createChallenge({
 			name: name,
 			duration: duration,
 			unitCost: unitCost,
 			currency: currency,
-			rules: rules
+			rules: rules,
+			owner: firebaseInitialized.uid,
+			participants: [firebaseInitialized.uid]
 		})
 	}
 };

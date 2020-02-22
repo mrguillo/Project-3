@@ -12,6 +12,8 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Footer from "./Footer";
+import Challenges from "./Challenges";
+import CreateChallenge from "./CreateChallenges";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +56,10 @@ export default function FullWidthGrid() {
             </Grid>
             <Grid item xs={12} sm={12}>
               <Footer />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Challenges />
+              <CreateChallenge />
             </Grid>
           </Grid>
         </div>

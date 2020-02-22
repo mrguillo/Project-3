@@ -5,8 +5,10 @@ import Register from "../Register";
 import Login from "../Login";
 import Exercises from "../Exercises";
 import NotFound from "../NotFound";
-import Challenges from "../../pages/Challenges";
-import CreateChallenge from "../../pages/CreateChallenge";
+// import Challenges from "../../pages/Challenges";
+// import Challenges from "../Dashboard/Challenges";
+// import CreateChallenge from "../../pages/CreateChallenge";
+// import CreateChallenge from "../CreateChallenge";
 
 import firebase from "../firebase";
 
