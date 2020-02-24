@@ -125,6 +125,7 @@ function Register(props) {
 				}).then((err,results) =>{
 					if(err){
 						console.log(err)
+						alert(err.message)
 					}
 					props.history.replace('/dashboard')
 				}

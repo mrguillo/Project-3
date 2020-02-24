@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import HomePage from "../HomePage";
 import Dashboard from "../Dashboard";
 import Register from "../Register";
-import Login from "../Login";
+import Login from "../GetStarted";
 import Exercises from "../Exercises";
 import NotFound from "../NotFound";
-// import Challenges from "../../pages/Challenges";
-// import Challenges from "../Dashboard/Challenges";
-// import CreateChallenge from "../../pages/CreateChallenge";
-// import CreateChallenge from "../CreateChallenge";
+import Home from "../Home/Index"
 
 import firebase from "../firebase";
 
@@ -81,9 +78,10 @@ function App(props) {
       <Router>
         <Switch>
           {/* Routing according to the path entered */}
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/register" component={Register} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/homepage" component={HomePage} />
           <Route exact path="/dashboard" component={() => <Dashboard displayName={displayName} />} />
           <Route exact path="/logout" component={Logout} />
           <Route exact component={NotFound} />
