@@ -152,6 +152,25 @@ module.exports = {
       })
   },
   activityApproval: function(req,res){
-    res.send("Activity approval route")
+    console.log("Running activityApproval!")
+    db.Activities
+      .findOne({_id:req.body.activityId}, function(err,activityInfo){
+        if(err){
+          res.end("The activity was not found")
+        }
+        else{
+          if(req.body.approved === true && req.body.rejected === false){
+            db.Activities
+              .update({_id: req.body.activityId},{$set: {approved: true}})
+              .then(nModified => res.send(nModified))
+          }
+          else if(req.body.approved === false && req.body.rejected === true){
+            db.Activities
+              .update({_id: req.body.activityId},{$set: {rejected: true}})
+              .then(nModified => res.send(nModified))
+          }
+          else res.end("The activity could not be updated!")
+        }
+      })
   }
 };
