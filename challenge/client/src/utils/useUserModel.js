@@ -1,17 +1,20 @@
 import { useState } from "react";
 
+
+
+
 const useUserModel = () => {
-  const [nameState, setName] = useState("Bob");
+  const [nameState, setName] = useState("Diana");
 //   const [imageState, setImage] = useState(profileImage);
 //   const [statusState, setStatus] = useState("Excited");
 //   const [excitementLevelState, setExcitementLevel] = useState("");
 
   return {
-    error: nameState === "" ? "Please enter a name" : "",
+    // error: nameState === "" ? "Please enter a name" : "",
     name: {
       value: nameState,
       onChange: e => setName(e.target.value)
-    // },
+        }
     // image: {
     //   value: imageState,
     //   onChange: e => setImage(e.target.value)
@@ -25,6 +28,6 @@ const useUserModel = () => {
     //   onChange: e => setExcitementLevel(e.target.value)
     }
   };
-};
+
 
 export default useUserModel;
