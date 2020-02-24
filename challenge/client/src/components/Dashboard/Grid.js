@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -16,6 +16,8 @@ import Challenges from "./Challenges";
 import CreateChallenge from "./CreateChallenges";
 import useUserModel from "../../utils/useUserModel";
 import UserContext from "../../utils/UserContext";
+import firebase from "../firebase";
+import API from "../../utils/API"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,16 +31,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FullWidthGrid(props) {
+  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
   const classes = useStyles();
   console.log("grid: " + props.displayName)
 
   const userModel = useUserModel(); // Context
+  useEffect(() => {
+    firebase.isInitialized().then(val => {
+      setFirebaseInitialized(val);
+      API.getUserInfo(firebaseInitialized.uid)
+      .then(user => {
+        console.log("USER: " + user.data.username)
+        userModel.name="test"
+      })
+      .catch(error => console.log("ERROR", error));
+    });
+  },[userModel]);
+
+  // useEffect(() => {
+  //   console.log(userModel);
+  // }, [userModel]);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
+        <UserContext.Provider value={userModel}>
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -68,6 +87,7 @@ export default function FullWidthGrid(props) {
             </Grid>
           </Grid>
         </div>
+        </UserContext.Provider>
       </Container>
     </React.Fragment>
   );

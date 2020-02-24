@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -14,6 +14,7 @@ import CustomizedRatings from "./Rating";
 import FormDialog from "./FormDialog";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
+import UserContext from "../../utils/UserContext"
 
 import Box from "@material-ui/core/Box";
 
@@ -43,7 +44,9 @@ const useStyles = makeStyles(theme => ({
 export default function UserCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
+  // const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
+  const userContext = useContext(UserContext);
+  console.log(userContext.name)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -70,7 +73,7 @@ export default function UserCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={props.displayName}
+        title={userContext.name.value}
         subheader="This week position: #1"
       />
       <CustomizedRatings />

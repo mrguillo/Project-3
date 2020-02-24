@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import HomePage from "../HomePage";
 import Dashboard from "../Dashboard";
 import Register from "../Register";
-import Login from "../Login";
+import Login from "../GetStarted";
 import Exercises from "../Exercises";
 import NotFound from "../NotFound";
+import Home from "../Home/Index"
+import API from "../../utils/API"
 // import Challenges from "../../pages/Challenges";
 // import Challenges from "../Dashboard/Challenges";
 // import CreateChallenge from "../../pages/CreateChallenge";
@@ -46,31 +48,32 @@ function App(props) {
   //Let's use the useState object to keep the firebase state
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
-  function initApp() {
-      if (firebaseInitialized) {
-        // User is signed in.
-         displayName = firebaseInitialized.displayName;
-        var email = firebaseInitialized.email;
-        var photoURL = firebaseInitialized.photoURL;
-        var uid = firebaseInitialized.uid;
-        console.log(
-          displayName,
-          email,
-          photoURL,
-          uid
-        );
-      } else {
-        // User is signed out.
-        // ...
-        console.log("user is signed out");
-      }
-  }
-  initApp();
+  // function initApp() {
+  //     if (firebaseInitialized) {
+  //       // User is signed in.
+  //        displayName = firebaseInitialized.displayName;
+  //       var email = firebaseInitialized.email;
+  //       var photoURL = firebaseInitialized.photoURL;
+  //       var uid = firebaseInitialized.uid;
+  //       console.log(
+  //         displayName,
+  //         email,
+  //         photoURL,
+  //         uid
+  //       );
+  //     } else {
+  //       // User is signed out.
+  //       // ...
+  //       console.log("user is signed out");
+  //     }
+  // }
+  // initApp();
 
   //Let's use useEffect to run the isInitialized function before the page loads.
   useEffect(() => {
     firebase.isInitialized().then(val => {
       setFirebaseInitialized(val);
+      API.getUserInfo(firebaseInitialized.uid).then(user => {console.log("USER: " + user)});
     });
   });
 
@@ -81,9 +84,10 @@ function App(props) {
       <Router>
         <Switch>
           {/* Routing according to the path entered */}
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/register" component={Register} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/homepage" component={HomePage} />
           <Route exact path="/dashboard" component={() => <Dashboard displayName={displayName} />} />
           <Route exact path="/logout" component={Logout} />
           <Route exact component={NotFound} />
