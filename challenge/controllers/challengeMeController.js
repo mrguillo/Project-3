@@ -1,6 +1,5 @@
 const db = require("../models");
 
-// Defining methods for the booksController
 module.exports = {
   createUser: function(req,res){
     console.log(req.body)
@@ -100,7 +99,57 @@ module.exports = {
       })
   },
   createActivity: function(req,res){
-    res.send("Activity creation route")
+    console.log("Running createActivity!")
+    db.Users
+      .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
+        if(err){
+          res.end("User not found!")
+        }
+        else{
+          var challengeInUser = false
+          for(i=0;i<userInfo.challenges.length;i++){
+            if(userInfo.challenges[i]._id.toString() === req.body.challengeId.toString()){
+              challengeInUser = true
+              break
+            }
+          }
+          if(challengeInUser===false){
+            res.end("The challenge that was specified is not part of the user's challenges array")
+          }
+          else{
+            db.Challenges
+              .findOne({_id: req.body.challengeId},function(err,challengeInfo){
+                if(err){
+                  res.end("Challenge not found!")
+                }
+                else{
+                  var userInChallenge = false
+                  for(i=0;i<challengeInfo.participants.length;i++){
+                    if(challengeInfo.participants[i]._id.toString() === userInfo._id.toString()){
+                      userInChallenge = true
+                      break
+                    }
+                  }
+                  if(userInChallenge===false){
+                    res.end("The user that was specified is not part of the challenge participants array")
+                  }
+                  else{
+                    var newActivity = {
+                      description: req.body.description,
+                      owner: userInfo._id,
+                      approved: false
+                    }
+                    db.Activities
+                      .create(newActivity)
+                      .then(dbActivity=>{
+                        res.json(dbActivity)
+                      })
+                  }
+                }
+              })
+          }
+        }
+      })
   },
   activityApproval: function(req,res){
     res.send("Activity approval route")
