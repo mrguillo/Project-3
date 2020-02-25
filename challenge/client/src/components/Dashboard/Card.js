@@ -15,6 +15,7 @@ import FormDialog from "./FormDialog";
 import Divider from "@material-ui/core/Divider";
 import firebase from "../firebase";
 import UserContext from "../../utils/UserContext"
+import Button from "react"
 
 import Box from "@material-ui/core/Box";
 
@@ -46,7 +47,6 @@ export default function UserCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   // const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
   const userContext = useContext(UserContext);
-  console.log(userContext.name)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -73,7 +73,7 @@ export default function UserCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={userContext.name.value}
+        title={userContext.username.value}
         subheader="This week position: #1"
       />
       <CustomizedRatings />

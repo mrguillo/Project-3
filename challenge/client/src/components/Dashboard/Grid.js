@@ -37,13 +37,14 @@ export default function FullWidthGrid(props) {
 
   const userModel = useUserModel(); // Context
   useEffect(() => {
-    firebase.isInitialized().then(val => {
-      setFirebaseInitialized(val);
-      API.getUserInfo(firebaseInitialized.uid)
-      .then(user => {
-        console.log("USER: " + user.data.username)
-        userModel.name="test"
-      })
+    firebase.isInitialized().then(async val => {
+      await setFirebaseInitialized(val)
+        API.getUserInfo(firebaseInitialized.uid)
+        .then(user => {
+          userModel.challenges=user.data.challenges;
+          userModel.userId=user.data._id;
+          userModel.username=user.data.username
+        })
       .catch(error => console.log("ERROR", error));
     });
   },[userModel]);

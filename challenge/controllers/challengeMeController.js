@@ -9,6 +9,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findUser: function(req,res){
+    console.log("Running findUser")
     db.Users
       .findOne({firebaseId: req.params.firebaseId})
       .populate({
@@ -21,6 +22,7 @@ module.exports = {
           if(err){
             throw err
           }
+          console.log("Result of findUser: ",userInfo)
           res.json(userInfo)
         }
       )

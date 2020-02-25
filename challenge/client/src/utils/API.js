@@ -7,7 +7,6 @@ export default {
     // },
     getUserInfo: function(userID) {
       console.log("axios jalando");
-      console.log(axios.get("/api/users/find/" + userID))
       return axios.get("/api/users/find/" + userID);
     },
     createUser: function(userData){

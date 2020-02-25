@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,10 +7,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import GoalSelect from './GoalSelector';
 import firebase from '../firebase'
+import UserContext from "../../utils/UserContext"
+
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
   const [firebaseInitialized,setFirebaseInitialized]=React.useState(false)
+
+  const userContext = useContext(UserContext);
 
   const handleClickOpen = () => {
     setOpen(true);

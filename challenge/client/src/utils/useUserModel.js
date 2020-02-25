@@ -4,17 +4,26 @@ import { useState } from "react";
 
 
 const useUserModel = () => {
-  const [nameState, setName] = useState("Diana");
-//   const [imageState, setImage] = useState(profileImage);
-//   const [statusState, setStatus] = useState("Excited");
-//   const [excitementLevelState, setExcitementLevel] = useState("");
+  const [userChallengesState, setUserChallenges] = useState({});
+  const [userIdState, setuserIdState] = useState("");
+  const [usernameState, setUserNameState] = useState("");
+  const [firebaseIdState, setFirebaseIdState] = useState("");
+  const [creationDateState, setCreationDateState] = useState("");
 
   return {
     // error: nameState === "" ? "Please enter a name" : "",
-    name: {
-      value: nameState,
-      onChange: e => setName(e.target.value)
-        }
+    challenges: {
+      value: userChallengesState,
+      onChange: e => setUserChallenges(e.target.value)
+        },
+    userId: {
+      value: userIdState,
+      onChange: e => setuserIdState(e.target.value)
+    },
+    username: {
+      value: usernameState,
+      onChange: e => setUserNameState(e.target.value)
+    }
     // image: {
     //   value: imageState,
     //   onChange: e => setImage(e.target.value)
