@@ -73,7 +73,7 @@ function App(props) {
   useEffect(() => {
     firebase.isInitialized().then(val => {
       setFirebaseInitialized(val);
-      API.getUserInfo(firebaseInitialized.uid).then(user => {console.log("USER: " + user)});
+      // API.getUserInfo(firebaseInitialized.uid).then(user => {console.log("USER: " + user)});
     });
   });
 
