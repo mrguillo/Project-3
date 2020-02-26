@@ -9,18 +9,18 @@ import {CircularProgress} from "@material-ui/core";
 
 export default function Dashboard(props) {
   const { classes } = props;
-  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-  const [userInfoState, setUserInfoState] = useState(false)
+  const [numOfChallenges, setNumOfChallenges] = useState(false)
 
   useEffect(() =>{
-    firebase.isInitialized().then(async val => {
-      await setFirebaseInitialized(val)
-      API.getUserInfo(firebaseInitialized.uid).then(results => {
-        console.log("Exito: ", results)
-        setUserInfoState(results)
+    firebase.isInitialized().then(val => {
+      API.getUserInfo(val.uid).then(results => {
+        console.log("Resultado de getUserInfo: ", results)
+        setNumOfChallenges(results.data.challenges.length)
+        console.log("numOfChallenges: ",numOfChallenges)
       })
     })
-  },[firebaseInitialized])
+  },[numOfChallenges])
+
 
   if (!firebase.getCurrentUsername()) {
     // not logged in
@@ -29,7 +29,7 @@ export default function Dashboard(props) {
     return null;
   }
 
-  if(userInfoState === false){
+  if(numOfChallenges === false){
     return(
     <div id="loader">
       <CircularProgress />
@@ -37,18 +37,18 @@ export default function Dashboard(props) {
     )
   }
   else{
-    if (userInfoState.challenges.length === 0) {
+    if (numOfChallenges === 0) {
       return (
         <React.Fragment>
           <CssBaseline />
-          <GroupCreateOrSelect displayName={props.displayName}/>
+          <GroupCreateOrSelect/>
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
           <CssBaseline />
-          <FullWidthGrid displayName={props.displayName}/>
+          <FullWidthGrid/>
         </React.Fragment>
       );
   
