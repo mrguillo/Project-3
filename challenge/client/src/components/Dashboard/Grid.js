@@ -27,27 +27,23 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FullWidthGrid(props) {
-  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-  const [userInfo, setUserInfo] = useState({})
-
   const classes = useStyles();
-  console.log("grid: " + props.displayName)
+  const [firebaseState, setFirebaseState] = useState(false)
+  const [userInfoState, setUserInfoState] = useState(false)
+
+  useEffect(()=>{
+    firebase.isInitialized().then(val => {
+      setFirebaseState(val.uid)
+      console.log("val.uid en  useEffect: ",val.uid)
+    })
+  },[])
 
   useEffect(() => {
-    firebase.isInitialized().then(async val => {
-      await setFirebaseInitialized(val)
-        API.getUserInfo(firebaseInitialized.uid)
-        .then(user => {
-          setUserInfo({
-            challenges: user.data.challenges,
-            userId: user.data._id,
-            username: user.data.username
-          }).then(console.log(userInfo));
-
-        })
-      .catch(error => console.log("ERROR", error));
-    });
-  },[userInfo]);
+      API.getUserInfo(firebaseState).then(results => {
+        console.log("corriendo el useEffect de getUserInfo adentro de Grid", results.data)
+        setUserInfoState(results.data)
+      })
+  },[firebaseState]);
 
 
   return (
@@ -64,7 +60,7 @@ export default function FullWidthGrid(props) {
                 <MsgSnackbar />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <UserCard displayName={props.displayName}/>
+                <UserCard username={userInfoState}/>
               </Grid>
               <Grid item xs={12} sm={8}>
                 <ChartTable />
