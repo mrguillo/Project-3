@@ -1,12 +1,26 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import firebase from "../firebase"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import FullWidthGrid from "./Grid"
 import GroupCreateOrSelect from "./GroupCreateOrSelect"
+import API from "../../utils/API"
+import {CircularProgress} from "@material-ui/core";
+
 
 export default function Dashboard(props) {
   const { classes } = props;
-  console.log(props.displayName);
+  const [numOfChallenges, setNumOfChallenges] = useState(false)
+
+  useEffect(() =>{
+    firebase.isInitialized().then(val => {
+      API.getUserInfo(val.uid).then(results => {
+        console.log("Resultado de getUserInfo: ", results)
+        setNumOfChallenges(results.data.challenges.length)
+        console.log("numOfChallenges: ",numOfChallenges)
+      })
+    })
+  },[numOfChallenges])
+
 
   if (!firebase.getCurrentUsername()) {
     // not logged in
@@ -15,28 +29,36 @@ export default function Dashboard(props) {
     return null;
   }
 
-  if (true) {
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <GroupCreateOrSelect displayName={props.displayName} />
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment>
-        <CssBaseline />
-
-        <FullWidthGrid displayName={props.displayName} />
-      </React.Fragment>
-    );
-
-    async function logout() {
-      await firebase.logout();
-      //use for routing
-      props.history.push("/");
-      //
-      //
-    }
-  } // parte del else
+  if(numOfChallenges === false){
+    return(
+    <div id="loader">
+      <CircularProgress />
+    </div>
+    )
+  }
+  else{
+    if (numOfChallenges === 0) {
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <GroupCreateOrSelect/>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <FullWidthGrid/>
+        </React.Fragment>
+      );
+  
+      async function logout() {
+        await firebase.logout();
+        //use for routing
+        props.history.push("/");
+        //
+        //
+      }
+    } // parte del else
+  }
 }

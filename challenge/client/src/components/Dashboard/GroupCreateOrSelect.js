@@ -169,8 +169,7 @@ export default function Action() {
           color="textSecondary"
           component="p"
         >
-          Welcome to Challenge-Me. To get started, please select weather you
-          like to create a new Challenge group or simply join an existing one.
+          Welcome to Challenge-Me. To get started, please create a new Challenge group or simply join an existing one.
         </Typography>
       </Container>
       {/* End hero unit */}

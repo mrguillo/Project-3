@@ -7,11 +7,16 @@ export default {
     // },
     getUserInfo: function(userID) {
       console.log("axios jalando");
-      console.log(axios.get("/api/users/find/" + userID))
       return axios.get("/api/users/find/" + userID);
     },
     createUser: function(userData){
       return axios.post("/api/users/create", userData);
+    },
+    createChallenge: function(challengeData){
+      return axios.post("/api/challenges/create",challengeData)
+    },
+    joinChallenge: function(joinData){
+      return axios.post("/api/challenges/join",joinData)
     }
 };
 

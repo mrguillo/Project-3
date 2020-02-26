@@ -10,7 +10,8 @@ const challengeSchema = new Schema({
   rules: String,
   creationDate: { type: Date, default: Date.now },
   owner: {type: Schema.Types.ObjectId, ref: 'Users'},
-  participants: [{type: Schema.Types.ObjectId, ref: 'Users'}]
+  participants: [{type: Schema.Types.ObjectId, ref: 'Users'}],
+  activities: [{type: Schema.Types.ObjectId, ref: 'Users'}]
 });
 
 const Challenges = mongoose.model("Challenges", challengeSchema);

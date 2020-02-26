@@ -2,13 +2,18 @@ const db = require("../models");
 
 module.exports = {
   createUser: function(req,res){
-    console.log(req.body)
+    console.log("Running createUser")
     db.Users
       .create(req.body)
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel => {
+        console.log("Resolved createUser with the following results: ")
+        console.log(dbModel)
+        res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
   findUser: function(req,res){
+    console.log("Running findUser")
     db.Users
       .findOne({firebaseId: req.params.firebaseId})
       .populate({
@@ -21,6 +26,7 @@ module.exports = {
           if(err){
             throw err
           }
+          console.log("Result of findUser: ",userInfo)
           res.json(userInfo)
         }
       )
@@ -152,6 +158,25 @@ module.exports = {
       })
   },
   activityApproval: function(req,res){
-    res.send("Activity approval route")
+    console.log("Running activityApproval!")
+    db.Activities
+      .findOne({_id:req.body.activityId}, function(err,activityInfo){
+        if(err){
+          res.end("The activity was not found")
+        }
+        else{
+          if(req.body.approved === true && req.body.rejected === false){
+            db.Activities
+              .update({_id: req.body.activityId},{$set: {approved: true}})
+              .then(nModified => res.send(nModified))
+          }
+          else if(req.body.approved === false && req.body.rejected === true){
+            db.Activities
+              .update({_id: req.body.activityId},{$set: {rejected: true}})
+              .then(nModified => res.send(nModified))
+          }
+          else res.end("The activity could not be updated!")
+        }
+      })
   }
 };
