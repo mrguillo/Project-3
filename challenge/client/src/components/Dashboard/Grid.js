@@ -12,8 +12,6 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Footer from "./Footer";
-import useUserModel from "../../utils/useUserModel";
-import UserContext from "../../utils/UserContext";
 import firebase from "../firebase";
 import API from "../../utils/API"
 
@@ -30,59 +28,58 @@ const useStyles = makeStyles(theme => ({
 
 export default function FullWidthGrid(props) {
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+  const [userInfo, setUserInfo] = useState({})
+
   const classes = useStyles();
   console.log("grid: " + props.displayName)
 
-  const userModel = useUserModel(); // Context
   useEffect(() => {
     firebase.isInitialized().then(async val => {
       await setFirebaseInitialized(val)
         API.getUserInfo(firebaseInitialized.uid)
         .then(user => {
-          userModel.challenges=user.data.challenges;
-          userModel.userId=user.data._id;
-          userModel.username=user.data.username
+          setUserInfo({
+            challenges: user.data.challenges,
+            userId: user.data._id,
+            username: user.data.username
+          }).then(console.log(userInfo));
+
         })
       .catch(error => console.log("ERROR", error));
     });
-  },[userModel]);
+  },[userInfo]);
 
-  // useEffect(() => {
-  //   console.log(userModel);
-  // }, [userModel]);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
-        <UserContext.Provider value={userModel}>
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <MenuAppBar />
+          <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <MenuAppBar />
+              </Grid>
+              <Grid item xs={12}>
+                <MsgSnackbar />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <UserCard displayName={props.displayName}/>
+              </Grid>
+              <Grid item xs={12} sm={8}>
+                <ChartTable />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <SimpleTabs />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <NewsFeed />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Footer />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <MsgSnackbar />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <UserCard displayName={props.displayName}/>
-            </Grid>
-            <Grid item xs={12} sm={8}>
-              <ChartTable />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <SimpleTabs />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <NewsFeed />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <Footer />
-            </Grid>
-          </Grid>
-        </div>
-        </UserContext.Provider>
+          </div>
       </Container>
     </React.Fragment>
   );
