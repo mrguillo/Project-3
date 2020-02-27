@@ -4,6 +4,8 @@ import VerifiedUserOutlined from '@material-ui/icons/VerifiedUserOutlined'
 import withStyles from '@material-ui/core/styles/withStyles'
 import firebase from '../firebase'
 import { withRouter } from 'react-router-dom'
+import firebase from "../firebase"
+import API from "../."
 
 const styles = theme => ({
 	main: {

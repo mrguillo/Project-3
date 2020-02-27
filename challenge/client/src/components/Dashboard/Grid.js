@@ -56,7 +56,6 @@ export default function FullWidthGrid(props) {
   // useEffect(() => {
   // },[firebaseState]);
 
-
   return (
     <React.Fragment>
       {/* {console.log("userInfoState: ",userInfoState.username)} */}
