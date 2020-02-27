@@ -28,26 +28,38 @@ const useStyles = makeStyles(theme => ({
 
 export default function FullWidthGrid(props) {
   const classes = useStyles();
-  const [firebaseState, setFirebaseState] = useState(false)
-  const [userInfoState, setUserInfoState] = useState(false)
+  // const [firebaseState, setFirebaseState] = useState(false)
+  const [userInfoState, setUserInfoState] = useState(
+      {
+        "challenges": [],
+        "ownedChallenges": [],
+        "_id": "",
+        "username": "",
+        "email": "",
+        "firebaseId": "",
+        "creationDate": ""
+    }
+  )
 
   useEffect(()=>{
     firebase.isInitialized().then(val => {
-      setFirebaseState(val.uid)
-      console.log("val.uid en  useEffect: ",val.uid)
+      API.getUserInfo(val.uid).then(results => {
+        console.log("corriendo el useEffect de getUserInfo adentro de Grid", results.data)
+        setUserInfoState(results.data)
+        
+      })
+      // setFirebaseState(val.uid)
+      // console.log("val.uid en  useEffect: ",val.uid)
     })
   },[])
 
-  useEffect(() => {
-      API.getUserInfo(firebaseState).then(results => {
-        console.log("corriendo el useEffect de getUserInfo adentro de Grid", results.data)
-        setUserInfoState(results.data)
-      })
-  },[firebaseState]);
+  // useEffect(() => {
+  // },[firebaseState]);
 
 
   return (
     <React.Fragment>
+      {/* {console.log("userInfoState: ",userInfoState.username)} */}
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
@@ -60,7 +72,7 @@ export default function FullWidthGrid(props) {
                 <MsgSnackbar />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <UserCard username={userInfoState}/>
+                <UserCard username={userInfoState.username}/>
               </Grid>
               <Grid item xs={12} sm={8}>
                 <ChartTable />

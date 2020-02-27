@@ -24,7 +24,7 @@ module.exports = {
       })
       .exec(function(err,userInfo){
           if(err){
-            throw err
+            res.status(400).json(err)
           }
           console.log("Result of findUser: ",userInfo)
           res.json(userInfo)
@@ -51,7 +51,7 @@ module.exports = {
           .create(newChallenge)
           .then(dbModel => {
             db.Users
-              .update({firebaseId: req.body.firebaseId},{$push:{challenges:dbModel._id, ownedChallenges: dbModel._id}})
+              .update({firebaseId: req.body.firebaseId},{$set:{challenges:dbModel._id, ownedChallenges: dbModel._id}})
               .then(userModel =>{
                 res.json(dbModel)
               })
@@ -70,7 +70,7 @@ module.exports = {
               res.send("Invalid invitation code")
             }
             db.Users
-              .update({_id:userInfo._id},{$push:{challenges:challengeInfo._id}})
+              .update({_id:userInfo._id},{$set:{challenges:challengeInfo._id}})
               .then(updateUserResult =>{
                 db.Challenges
                   .update({_id:challengeInfo._id},{$push:{participants:userInfo._id}})
@@ -178,5 +178,20 @@ module.exports = {
           else res.end("The activity could not be updated!")
         }
       })
-  }
+  },
+  startChallenge: function(req,res){
+    console.log("Running startChallenge!")
+    db.Challenges
+          .findOne({_id:req.body.challengeId},function(err,challengeInfo){
+            if(err){
+              res.send("Invalid challenge Id")
+            }
+            db.Challenges
+              .updateOne({_id:req.body.challengeId},{$set:{status: "started"},$currentDate:{startingDate: true}})
+              .then(nModified => {
+                console.log("Results of startChallenge: ",nModified)
+                res.send(nModified)
+              })
+          })
+        }
 };

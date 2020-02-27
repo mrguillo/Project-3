@@ -127,8 +127,10 @@ function Register(props) {
 						console.log(err)
 						alert(err.message)
 					}
-					console.log(results)
-					props.history.replace('/dashboard')
+					else{
+						console.log(results)
+						props.history.replace('/dashboard')
+					}
 				}
 				)
 			}

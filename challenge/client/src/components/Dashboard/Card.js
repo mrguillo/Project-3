@@ -57,7 +57,7 @@ export default function UserCard(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {/* {avatarLetter[0]} */}
+            {props.username[0]}
           </Avatar>
         }
         action={
@@ -65,7 +65,7 @@ export default function UserCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        // title={props.userInfo.username}
+        title={props.username}
         subheader="This week position: #1"
       />
       <CustomizedRatings />
