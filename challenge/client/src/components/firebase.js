@@ -45,19 +45,6 @@ var firebaseConfig = {
         return createUserFirebase
     };
 
-    // addGroup(name,email,group){
-    //     //user presence control
-    //     if(!this.auth.currentUser){
-    //         return alert('Not authorized')
-    //     }
-
-    //     //Adding documents to the collection of firebase pckurdu db
-    //     return this.db.doc(`challengedb/${this.auth.currentUser.uid}`).set({
-    //         group:group,
-    //         email: email
-    //     })
-    // };
-
     isInitialized(){
         //hold until the process ends
         return new Promise(resolve=>{
@@ -68,8 +55,13 @@ var firebaseConfig = {
 
     getCurrentUsername() {
         //return displayName if user is logged in
-        return this.auth.currentUser && this.auth.currentUser.displayName
+        return this.auth.currentUser && this.auth.currentUser.displayName 
     };   
+
+    getCurrentUserId() {
+        //return displayName if user is logged in
+        return this.auth.currentUser.uid
+    };  
 
     async getCurrentUserGroup() {
         //Access to the group field in the user uid document in the pckurdu collection.

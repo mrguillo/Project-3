@@ -27,9 +27,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog2() {
+export default function FullScreenDialog2(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  console.log("Esto es props: " + JSON.stringify(props));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,22 +62,22 @@ export default function FullScreenDialog2() {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Sound
+            Please review
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
-              save
+              Confirm
             </Button>
           </Toolbar>
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
+            <ListItemText primary={props.data.code} secondary="Invitation code" />
           </ListItem>
           <Divider />
           <ListItem button>
             <ListItemText
               primary="Default notification ringtone"
-              secondary="Tethys"
+              secondary="Challenge name"
             />
           </ListItem>
         </List>

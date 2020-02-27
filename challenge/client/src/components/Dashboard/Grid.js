@@ -49,7 +49,6 @@ export default function FullWidthGrid(props) {
     });
   },[userInfo]);
 
-
   return (
     <React.Fragment>
       <CssBaseline />
