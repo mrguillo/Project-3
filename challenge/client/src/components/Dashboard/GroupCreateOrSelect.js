@@ -1,31 +1,26 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-import StarIcon from "@material-ui/icons/StarBorder";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
 import FullScreenDialog1 from "./TabCreateChallenge1";
-import FullScreenDialog2 from "./TabCreateChallenge1";
+import FullScreenDialog2 from "./TabCreateChallenge2";
 import TextField from "@material-ui/core/TextField";
 
-import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Footer from "./Footer";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
+import firebase from "../firebase"
+import API from "../../utils/API"
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -136,19 +131,62 @@ const useStyles = makeStyles(theme => ({
 export default function Action() {
   const classes = useStyles();
 
-  const [fee, setFee] = React.useState("");
+  // const [fee, setFee] = React.useState("");
+  const [sendInfoNewChallenge, setSendInfoNewChallenge] = React.useState({
+    challenge: null,
+    rules: null,
+    duration: 4,
+    fee: 10
+  })
+
+  const [sendInfoJoinChallenge, setSendInfoJoinChallenge] = React.useState({
+    code: null,
+  })
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
-  // React.useEffect(() => {
-  //   setLabelWidth(inputLabel.current.offsetWidth);
-  // }, []);
 
-  const handleChange = event => {
-    setFee(event.target.value);
+// Switch for grabbing user input data CREATE NEW CHALLENGE / handling state
+  const handleChanges = event => {
+    switch (event.target.name) {
+      case 'challenge':
+        console.log(event)
+        setSendInfoNewChallenge({...sendInfoNewChallenge, challenge: event.target.value});
+      break;
+      case 'rules':
+        setSendInfoNewChallenge({...sendInfoNewChallenge, rules: event.target.value});
+      break;
+      case 'duration':
+        setSendInfoNewChallenge({...sendInfoNewChallenge, duration: event.target.value});
+      break;
+      case 'fee':
+        setSendInfoNewChallenge({...sendInfoNewChallenge, fee: event.target.value});
+      break;
+      default:
+        break;
+    }
   };
 
+// Grabbing user invitation code for JOINING EXISTING CHALLENGE / handling state
+const handleChangesJoin = event => {
+  setSendInfoJoinChallenge({...sendInfoJoinChallenge, code: event.target.value});
+  console.log(event.target.value);
+}
+
+// FETCH UID (invitation code) from Mongoose
+
+async function doit() {
+  const fbId = firebase.getCurrentUserId();
+  console.log("The fbId process is ready => " + fbId);
+   
+  const mongooseId = await API.getUserInfo(fbId);
+  console.log("Ready with someTimeConsumingThing => " + mongooseId.data._id);
+}
+ 
+doit();
+
   return (
+
     <React.Fragment>
       <CssBaseline />
 
@@ -173,6 +211,8 @@ export default function Action() {
         </Typography>
       </Container>
       {/* End hero unit */}
+
+      {/* CREATE CHALLENGE OPTION CARD */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           <Grid item xs={12} sm={12} md={6}>
@@ -195,7 +235,10 @@ export default function Action() {
                     InputLabelProps={{
                       shrink: true
                     }}
+                    name='challenge'
+                    value={sendInfoNewChallenge.challenge}
                     variant="outlined"
+                    onChange={handleChanges}
                   />
                 </div>
                 <div className={classes.cardPricing}>
@@ -206,28 +249,32 @@ export default function Action() {
                     label="Challenge rules"
                     multiline
                     rows="3"
+                    name="rules"
+                    value={sendInfoNewChallenge.rules}
                     placeholder="ie. Run at least 25 miles per week"
                     variant="outlined"
+                    onChange={handleChanges}
                   />
                 </div>
 
                 <div className={classes.cardPricing}>
                   <FormControl className={classes.formControl} fullWidth>
-                    <InputLabel id="Fees">
+                    <InputLabel id="Duration">
                       Duration
                     </InputLabel>
                     <Select
                       labelId="Challenge lenght"
-                      id="fees"
-                      value={fee}
-                      onChange={handleChange}
+                      id="duration"
+                      value={sendInfoNewChallenge.duration}
+                      onChange={handleChanges}
+                      name='duration'
                     >
                       <MenuItem value="">
                         <em>Select:</em>
                       </MenuItem>
-                      <MenuItem value={10}>4 weeks</MenuItem>
-                      <MenuItem value={20}>8 weeks</MenuItem>
-                      <MenuItem value={30}>12 weeks</MenuItem>
+                      <MenuItem value={4}>4 weeks</MenuItem>
+                      <MenuItem value={8}>8 weeks</MenuItem>
+                      <MenuItem value={12}>12 weeks</MenuItem>
                     </Select>
                     <FormHelperText>Establish Challenge lenght</FormHelperText>
                   </FormControl>
@@ -240,8 +287,9 @@ export default function Action() {
                     <Select
                       labelId="weeklyFee"
                       id="fee"
-                      value={fee}
-                      onChange={handleChange}
+                      value={sendInfoNewChallenge.fee}
+                      onChange={handleChanges}
+                      name='fee'
                     >
                       <MenuItem value="">
                         <em>Choose</em>
@@ -258,11 +306,12 @@ export default function Action() {
                 </ul>
               </CardContent>
               <CardActions>
-                <FullScreenDialog1 />
+                <FullScreenDialog1 data={sendInfoNewChallenge} />
               </CardActions>
             </Card>
           </Grid>
-
+          
+          {/* CARD #2 */}
           <Grid item xs={12} sm={12} md={6}>
             <Card>
               <CardHeader
@@ -284,12 +333,15 @@ export default function Action() {
                       shrink: true
                     }}
                     variant="outlined"
+                    name= "code"
+                    value={sendInfoJoinChallenge.code}
+                    onChange={handleChangesJoin}
                   />
                 </div>
                 <ul></ul>
               </CardContent>
               <CardActions>
-                <FullScreenDialog2 />
+                <FullScreenDialog2 data={sendInfoJoinChallenge}/>
               </CardActions>
             </Card>
           </Grid>

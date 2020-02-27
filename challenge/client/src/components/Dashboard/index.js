@@ -11,7 +11,7 @@ export default function Dashboard(props) {
   const { classes } = props;
   const [numOfChallenges, setNumOfChallenges] = useState(false)
 
-  useEffect(() =>{
+  useEffect((props) =>{
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
         console.log("Resultado de getUserInfo: ", results)
@@ -20,6 +20,7 @@ export default function Dashboard(props) {
       })
     })
   },[numOfChallenges])
+
 
 
   if (!firebase.getCurrentUsername()) {
@@ -37,6 +38,7 @@ export default function Dashboard(props) {
     )
   }
   else{
+
     if (numOfChallenges === 0) {
       return (
         <React.Fragment>
@@ -56,8 +58,6 @@ export default function Dashboard(props) {
         await firebase.logout();
         //use for routing
         props.history.push("/");
-        //
-        //
       }
     } // parte del else
   }
