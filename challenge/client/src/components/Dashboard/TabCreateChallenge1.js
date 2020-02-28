@@ -38,15 +38,31 @@ export default function FullScreenDialog1(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+  
+  const clickOnNew = ()=>{
+    API.createChallenge(props)
+       .then((err,results)=>{
+         if(err){
+           console.log(err)
+         }
+         else{
+           console.log(results)
+           setOpen(false);
+         }
+       })
+  }
 
-  const handleClose = () => {
+  const handleClose = () =>{
     setOpen(false);
-  };
+  }
+
 
   const data = API.getUserInfo();
   console.log("TCL: data", data)
   
   // FETCH UID (invitation code) from Mongoose
+
+
 
 
 
@@ -81,7 +97,7 @@ export default function FullScreenDialog1(props) {
             <Typography variant="h6" className={classes.title}>
               Please review
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={clickOnNew}>
               Confirm
             </Button>
           </Toolbar>

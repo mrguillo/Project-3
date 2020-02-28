@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, {useState, useEffect} from "react";
+=======
+import React, {useEffect, useState} from "react"
+>>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -128,19 +132,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Action() {
+export default function Action(props) {
   const classes = useStyles();
 
   // const [fee, setFee] = React.useState("");
   const [sendInfoNewChallenge, setSendInfoNewChallenge] = React.useState({
-    challenge: null,
+    name: null,
     rules: null,
-    duration: 4,
-    fee: 10
+    duration: 0,
+    unitCost: 0,
+    firebaseId: ""
   })
 
   const [sendInfoJoinChallenge, setSendInfoJoinChallenge] = React.useState({
-    code: null,
+    invitationCode: null,
+    firebaseId: ""
   })
 
   const inputLabel = React.useRef(null);
@@ -151,7 +157,7 @@ export default function Action() {
     switch (event.target.name) {
       case 'challenge':
         console.log(event)
-        setSendInfoNewChallenge({...sendInfoNewChallenge, challenge: event.target.value});
+        setSendInfoNewChallenge({...sendInfoNewChallenge, name: event.target.value});
       break;
       case 'rules':
         setSendInfoNewChallenge({...sendInfoNewChallenge, rules: event.target.value});
@@ -160,7 +166,7 @@ export default function Action() {
         setSendInfoNewChallenge({...sendInfoNewChallenge, duration: event.target.value});
       break;
       case 'fee':
-        setSendInfoNewChallenge({...sendInfoNewChallenge, fee: event.target.value});
+        setSendInfoNewChallenge({...sendInfoNewChallenge, unitCost: event.target.value});
       break;
       default:
         break;
@@ -169,7 +175,7 @@ export default function Action() {
 
 // Grabbing user invitation code for JOINING EXISTING CHALLENGE / handling state
 const handleChangesJoin = event => {
-  setSendInfoJoinChallenge({...sendInfoJoinChallenge, code: event.target.value});
+  setSendInfoJoinChallenge({...sendInfoJoinChallenge, invitationCode: event.target.value});
   console.log(event.target.value);
 }
 
@@ -178,6 +184,7 @@ const[userMongoID, setUserMongoID] = useState("default")
   
 async function getMongoIDfromFBID(fbId) {
 
+<<<<<<< HEAD
   console.log("The fbId process is ready => " + fbId);
    
   const mongooseId = await API.getUserInfo(fbId);
@@ -202,13 +209,29 @@ if(mongooseId) {
 
   
 }
+=======
+useEffect(()=>{
+  setSendInfoNewChallenge({...sendInfoNewChallenge, firebaseId: props.firebaseId});
+  setSendInfoJoinChallenge({...sendInfoJoinChallenge,firebaseId: props.firebaseId})
+},[])
+
+// async function doit() {
+//   const fbId = firebase.getCurrentUserId();
+//   console.log("The fbId process is ready => " + fbId);
+// }
+ 
+// doit();
+>>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
 
 }  
 
   return (
     <React.Fragment>
       <CssBaseline />
+<<<<<<< HEAD
     {console.log("TCL: result" + userMongoID)}
+=======
+>>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
@@ -325,7 +348,11 @@ if(mongooseId) {
                 </ul>
               </CardContent>
               <CardActions>
+<<<<<<< HEAD
                 <FullScreenDialog1 data={sendInfoNewChallenge} code={userMongoID} />
+=======
+                <FullScreenDialog1 data={sendInfoNewChallenge}/>
+>>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
               </CardActions>
             </Card>
           </Grid>

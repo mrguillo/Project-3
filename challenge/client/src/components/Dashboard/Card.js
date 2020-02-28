@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -45,27 +45,19 @@ const useStyles = makeStyles(theme => ({
 export default function UserCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  // const [firebaseInitialized, setFirebaseInitialized] = React.useState(false);
-  const userContext = useContext(UserContext);
+   
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  // React.useEffect(() => {
-  //   firebase.isInitialized().then(val => {
-  //     setFirebaseInitialized(val);
-  //   });
-  // });
-
-  const avatarLetter = String(props.displayName);
-
   return (
     <Card className={classes.root}>
+    {console.log("props dentro de card: ",props.username)}
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {avatarLetter[0]}
+            {props.username[0]}
           </Avatar>
         }
         action={
@@ -73,7 +65,7 @@ export default function UserCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={userContext.username.value}
+        title={props.username}
         subheader="This week position: #1"
       />
       <CustomizedRatings />

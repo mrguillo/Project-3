@@ -5,60 +5,104 @@ import FullWidthGrid from "./Grid"
 import GroupCreateOrSelect from "./GroupCreateOrSelect"
 import API from "../../utils/API"
 import {CircularProgress} from "@material-ui/core";
+import InitiateChallenge from "./InitiateChallenge"
+import ChallengeNotInitiated from "./ChallengeNotInitiated"
 
 
 export default function Dashboard(props) {
   const { classes } = props;
-  const [numOfChallenges, setNumOfChallenges] = useState(false)
+  const [userInfoState, setUserInfoState] = useState(
+      {
+        "challenges": "",
+        "ownedChallenges": [],
+        "_id": "",
+        "username": "",
+        "email": "",
+        "firebaseId": "",
+        "creationDate": ""
+    }
+  )
 
-  useEffect((props) =>{
+  useEffect(()=>{
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
-        console.log("Resultado de getUserInfo: ", results)
-        setNumOfChallenges(0)
-        console.log("numOfChallenges: ",numOfChallenges)
+        setUserInfoState(results.data)
       })
     })
-  },[numOfChallenges])
+  },[])
 
+  console.log("userInfoState: ",userInfoState)
 
-
-  if (!firebase.getCurrentUsername()) {
-    // not logged in
-    alert("Please login first");
-    props.history.replace("/login");
-    return null;
+  var challengeCondition = false
+  if(!firebase.getCurrentUsername()){
+    challengeCondition = "Not logged in firebase"
   }
-
-  if(numOfChallenges === false){
-    return(
-    <div id="loader">
-      <CircularProgress />
-    </div>
-    )
+  else if(userInfoState._id === ""){
+    challengeCondition = "userInfoState has not yet been set"
+  }
+  else if(!userInfoState.challenges || userInfoState.challenges.length === 0){
+    challengeCondition = "The user does not have challenges"
+  }
+  else if(userInfoState.challenges.status === "started" || userInfoState.challenges.status === "ended"){
+    challengeCondition = "Challenge's status is started or ended"
+  }
+  else if(userInfoState.challenges.status === "created" && userInfoState.challenges.owner.firebaseId === userInfoState.firebaseId){
+    challengeCondition = "Challenge's status is created and he is the owner"
+  }
+  else if(userInfoState.challenges.status === "created" && userInfoState.challenges.owner.firebaseId !== userInfoState.firebaseId){
+    challengeCondition = "Challenges's state is created and he is not the owner"
   }
   else{
+    challengeCondition = false
+  }
 
-    if (numOfChallenges === 0) {
+  switch(challengeCondition){
+    case "Not logged in firebase":
+      alert("Please login first");
+      props.history.replace("/login");
+      return null;
+    case "userInfoState has not yet been set":
+      return(
+        <div id="loader">
+          <CircularProgress/>
+        </div>
+        )
+    case "The user does not have challenges":
       return (
         <React.Fragment>
           <CssBaseline />
-          <GroupCreateOrSelect/>
+          <GroupCreateOrSelect firebaseId={userInfoState.firebaseId}/>
         </React.Fragment>
       );
-    } else {
+    case "Challenge's status is started or ended":
       return (
         <React.Fragment>
           <CssBaseline />
           <FullWidthGrid/>
         </React.Fragment>
       );
-  
-      async function logout() {
-        await firebase.logout();
-        //use for routing
-        props.history.push("/");
-      }
-    } // parte del else
+    case "Challenge's status is created and he is the owner":
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <InitiateChallenge challengeInfo={userInfoState.challenges}/>
+        </React.Fragment>
+      );
+    case "Challenges's state is created and he is not the owner":
+      return (
+        <React.Fragment>
+          <CssBaseline />
+          <ChallengeNotInitiated/>
+        </React.Fragment>
+      );
+    default:
+      return null
   }
+
+  async function logout() {
+    await firebase.logout();
+    //use for routing
+    props.history.push("/");
+  }
+    
 }
