@@ -40,7 +40,7 @@ export default function FullScreenDialog1(props) {
   
   const clickOnNew = ()=>{
     API.createChallenge(props)
-       .then((err,results)=>{
+       .then((results,err)=>{
          if(err){
            console.log(err)
          }
