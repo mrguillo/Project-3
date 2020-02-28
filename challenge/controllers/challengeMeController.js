@@ -117,21 +117,15 @@ module.exports = {
   },
   createActivity: function(req,res){
     console.log("--------------------------------")
-    console.log("Running createActivity!")
+    console.log("Running createActivity!: ")
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
           res.end("User not found!")
         }
         else{
-          var challengeInUser = false
-          for(i=0;i<userInfo.challenges.length;i++){
-            if(userInfo.challenges[i]._id.toString() === req.body.challengeId.toString()){
-              challengeInUser = true
-              break
-            }
-          }
-          if(challengeInUser===false){
+          console.log("Resultado de query de usuario: ", userInfo)
+          if(userInfo.challenges._id.toString() === req.body.challengeId.toString()){
             res.end("The challenge that was specified is not part of the user's challenges array")
           }
           else{
@@ -152,16 +146,21 @@ module.exports = {
                     res.end("The user that was specified is not part of the challenge participants array")
                   }
                   else{
-                    var newActivity = {
-                      description: req.body.description,
-                      owner: userInfo._id,
-                      approved: false
+                    if(challengeInfo.status === "created"){
+                      res.end("The challenge has not yet been created")
                     }
-                    db.Activities
-                      .create(newActivity)
-                      .then(dbActivity=>{
-                        res.json(dbActivity)
-                      })
+                    else{
+                      var newActivity = {
+                        description: req.body.description,
+                        owner: userInfo._id,
+                        approved: false
+                      }
+                      db.Activities
+                        .create(newActivity)
+                        .then(dbActivity=>{
+                          res.json(dbActivity)
+                        })
+                    }
                   }
                 }
               })
