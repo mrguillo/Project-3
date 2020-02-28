@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import firebase from "../firebase"
 import API from "../../utils/API"
 
@@ -118,8 +119,9 @@ export default function FullScreenDialog1(props) {
           <ListItem button>
             <ListItemText
               primary={" " + props.code}
-              secondary="Result"
+              secondary="Your invitation code"
             />
+              <FileCopyIcon />
           </ListItem>
 
         </List>
