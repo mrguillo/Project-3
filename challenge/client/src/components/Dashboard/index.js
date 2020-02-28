@@ -71,7 +71,7 @@ export default function Dashboard(props) {
       return (
         <React.Fragment>
           <CssBaseline />
-          <GroupCreateOrSelect/>
+          <GroupCreateOrSelect firebaseId={userInfoState.firebaseId}/>
         </React.Fragment>
       );
     case "Challenge's status is started or ended":
