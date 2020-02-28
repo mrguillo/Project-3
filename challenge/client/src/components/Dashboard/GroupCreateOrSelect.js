@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, {useState, useEffect} from "react";
-=======
 import React, {useEffect, useState} from "react"
->>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -184,32 +180,6 @@ const[userMongoID, setUserMongoID] = useState("default")
   
 async function getMongoIDfromFBID(fbId) {
 
-<<<<<<< HEAD
-  console.log("The fbId process is ready => " + fbId);
-   
-  const mongooseId = await API.getUserInfo(fbId);
-  console.log(mongooseId);
-  console.log("Ready with someTimeConsumingThing => " + mongooseId.data._id);
-  setUserMongoID(mongooseId.data._id)
-};
-
-useEffect(() => {
-  const fbId = firebase.getCurrentUserId();
-  getMongoIDfromFBID(fbId)}, [])
-
-const[validateInvitationCode, setValidateInvitationCode] = useState(false)
-
-async function validateMongoId(mongoId) {
-// Ruta que busque mongoID a partir del input del cliente API getUserInfoFromMongoId
-const mongooseId = await API.getUserInfoFromMongoId(mongoId);//Falta crear
-if(mongooseId) {
-  setValidateInvitationCode(true)
-}else{
-  setValidateInvitationCode(false)
-
-  
-}
-=======
 useEffect(()=>{
   setSendInfoNewChallenge({...sendInfoNewChallenge, firebaseId: props.firebaseId});
   setSendInfoJoinChallenge({...sendInfoJoinChallenge,firebaseId: props.firebaseId})
@@ -221,17 +191,12 @@ useEffect(()=>{
 // }
  
 // doit();
->>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
 
 }  
 
   return (
     <React.Fragment>
       <CssBaseline />
-<<<<<<< HEAD
-    {console.log("TCL: result" + userMongoID)}
-=======
->>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
@@ -348,11 +313,7 @@ useEffect(()=>{
                 </ul>
               </CardContent>
               <CardActions>
-<<<<<<< HEAD
-                <FullScreenDialog1 data={sendInfoNewChallenge} code={userMongoID} />
-=======
                 <FullScreenDialog1 data={sendInfoNewChallenge}/>
->>>>>>> 3427cb51dd21defae76bbac803e54025d9e8cf51
               </CardActions>
             </Card>
           </Grid>
