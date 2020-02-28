@@ -37,6 +37,7 @@ module.exports = {
         if(err){
           res.send("User not found!")
         }
+        console.log("userInfo: ",userInfo)
         var newChallenge = {
           name: req.body.name,
           status: "created",

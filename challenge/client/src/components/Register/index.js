@@ -122,12 +122,14 @@ function Register(props) {
 					username:firebaseObject.user.displayName,
 					email:firebaseObject.user.email,
 					firebaseId:firebaseObject.user.uid
-				}).then((err,results) =>{
+				}).then((results,err) =>{
 					if(err){
+						console.log("Resultados de axios.createUser error: ", err)
 						console.log(err)
 						alert(err.message)
 					}
 					else{
+						console.log("Resultados de axios.createUser: ", results)
 						console.log(results)
 						props.history.replace('/dashboard')
 					}
