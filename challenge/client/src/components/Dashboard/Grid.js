@@ -27,30 +27,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FullWidthGrid(props) {
-  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
-  const [userInfo, setUserInfo] = useState({})
-
   const classes = useStyles();
-  console.log("grid: " + props.displayName)
+  // const [firebaseState, setFirebaseState] = useState(false)
+  const [userInfoState, setUserInfoState] = useState(
+      {
+        "challenges": [],
+        "ownedChallenges": [],
+        "_id": "",
+        "username": "",
+        "email": "",
+        "firebaseId": "",
+        "creationDate": ""
+    }
+  )
 
-  useEffect(() => {
-    firebase.isInitialized().then(async val => {
-      await setFirebaseInitialized(val)
-        API.getUserInfo(firebaseInitialized.uid)
-        .then(user => {
-          setUserInfo({
-            challenges: user.data.challenges,
-            userId: user.data._id,
-            username: user.data.username
-          }).then(console.log(userInfo));
+  useEffect(()=>{
+    firebase.isInitialized().then(val => {
+      API.getUserInfo(val.uid).then(results => {
+        console.log("corriendo el useEffect de getUserInfo adentro de Grid", results.data)
+        setUserInfoState(results.data)
+        
+      })
+      // setFirebaseState(val.uid)
+      // console.log("val.uid en  useEffect: ",val.uid)
+    })
+  },[])
 
-        })
-      .catch(error => console.log("ERROR", error));
-    });
-  },[userInfo]);
+  // useEffect(() => {
+  // },[firebaseState]);
 
   return (
     <React.Fragment>
+      {/* {console.log("userInfoState: ",userInfoState.username)} */}
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
@@ -63,7 +71,7 @@ export default function FullWidthGrid(props) {
                 <MsgSnackbar />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <UserCard displayName={props.displayName}/>
+                <UserCard username={userInfoState.username}/>
               </Grid>
               <Grid item xs={12} sm={8}>
                 <ChartTable />

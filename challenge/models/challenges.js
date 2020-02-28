@@ -9,6 +9,7 @@ const challengeSchema = new Schema({
   currency: String,
   rules: String,
   creationDate: { type: Date, default: Date.now },
+  startingDate: Date,
   owner: {type: Schema.Types.ObjectId, ref: 'Users'},
   participants: [{type: Schema.Types.ObjectId, ref: 'Users'}],
   activities: [{type: Schema.Types.ObjectId, ref: 'Users'}]

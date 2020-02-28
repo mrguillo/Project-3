@@ -7,8 +7,8 @@ const userSchema = new Schema({
   firebaseId: {type: String, required: true},
   photoUrl: String,
   creationDate: { type: Date, default: Date.now },
-  challenges: [{ type: Schema.Types.ObjectId, ref: 'Challenges' }],
-  ownedChallenges: [{ type: Schema.Types.ObjectId, ref: 'Challenges' }]
+  challenges: { type: Schema.Types.ObjectId, ref: 'Challenges' },
+  ownedChallenges: { type: Schema.Types.ObjectId, ref: 'Challenges' }
 });
 
 const Users = mongoose.model("Users", userSchema);
