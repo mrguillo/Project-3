@@ -10,37 +10,49 @@ import API from '../../utils/API';
 import { Link, withRouter } from 'react-router-dom';
 import CssBaseline from "@material-ui/core/CssBaseline"
 import FullWidthGrid from "./Grid"
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 const InitiateChallenge = (props) => {
   const [goToDashboardGrid, setGoToDashboardGrid] = useState(false)
 
   if(goToDashboardGrid===false){
     return (
-      <Card width="400px">
-        <CardHeader title={props.challengeInfo.name} align="center"/>
-        <Divider variant="middle" />
-        <CardContent>
-          <Typography align="center">
-            Your challenge hasn't been  started
-          </Typography>
-          <div>
-            <Typography align="center">Jero</Typography>
-            <Typography align="center">Sync notes</Typography>
-            <Typography align="center">Set deadline</Typography>
-          </div>
-        </CardContent>
-        <Divider variant="middle" />
-        <CardActions>
-          <Button 
-          variant="contained"
-          color="primary"
-          align="center"
-          onClick={startChallengeFunc}
-          >
-            Start!
-          </Button>
-        </CardActions>
-      </Card>
+      <Container>
+        <Grid item xs={2} sm={2}></Grid>
+        <Grid item xs={8} sm={8}>
+          <Card width="400px">
+            <CardHeader title={props.challengeInfo.name} align="center"/>
+            <Divider variant="middle" />
+            <CardContent>
+              <Typography align="center">
+                Your challenge hasn't been  started
+              </Typography>
+              <div>
+                <Typography align="center">Jero</Typography>
+                <Typography align="center">Sync notes</Typography>
+                <Typography align="center">Set deadline</Typography>
+              </div>
+            </CardContent>
+            <Divider variant="middle" />
+            <CardActions>
+              <Grid></Grid>
+              <Grid>
+                <Button 
+                variant="contained"
+                color="primary"
+                align="center"
+                onClick={startChallengeFunc}
+                >
+                  Start!
+                </Button>
+              </Grid>
+              <Grid></Grid>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={2} sm={2}></Grid>  
+      </Container>
     );
   }
   else{

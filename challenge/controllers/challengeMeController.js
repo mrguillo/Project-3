@@ -2,6 +2,7 @@ const db = require("../models");
 
 module.exports = {
   createUser: function(req,res){
+    console.log("--------------------------------")
     console.log("Running createUser")
     db.Users
       .create(req.body)
@@ -13,6 +14,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findUser: function(req,res){
+    console.log("--------------------------------")
     console.log("Running findUser")
     db.Users
       .findOne({firebaseId: req.params.firebaseId})
@@ -32,34 +34,40 @@ module.exports = {
       )
   },
   createChallenge: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running createChallenge with: ",req.body)
     db.Users
-      .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
+      .findOne({firebaseId: req.body.data.firebaseId},function(err,userInfo){
         if(err){
-          res.send("User not found!")
+          res.status(400).json(err)
         }
-        console.log("userInfo: ",userInfo)
-        var newChallenge = {
-          name: req.body.name,
-          status: "created",
-          duration: req.body.duration,
-          unitCost: req.body.unitCost,
-          currency: req.body.currency,
-          rules: req.body.rules,
-          owner: userInfo._id,
-          participants: [userInfo._id]
-        }  
-        db.Challenges
-          .create(newChallenge)
-          .then(dbModel => {
-            db.Users
-              .update({firebaseId: req.body.firebaseId},{$set:{challenges:dbModel._id, ownedChallenges: dbModel._id}})
-              .then(userModel =>{
-                res.json(dbModel)
-              })
-          })
+        else{
+          console.log("userInfo consultada a DB: ", userInfo)
+          var newChallenge = {
+            name: req.body.data.name,
+            status: "created",
+            duration: req.body.data.duration,
+            unitCost: req.body.data.unitCost,
+            currency: req.body.data.currency,
+            rules: req.body.data.rules,
+            owner: userInfo._id,
+            participants: [userInfo._id]
+          }  
+          db.Challenges
+            .create(newChallenge)
+            .then(dbModel => {
+              db.Users
+                .update({firebaseId: req.body.data.firebaseId},{$set:{challenges:dbModel._id, ownedChallenges: dbModel._id}})
+                .then(userModel =>{
+                  res.json(dbModel)
+                })
+            })
+        }
         })
   },
   joinChallenge: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running joinChallenge")
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
@@ -89,6 +97,8 @@ module.exports = {
       })
   },
   findChallenge: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running findChallenge")
     db.Challenges
       .findOne({_id:req.params.challengeId})
       .populate({
@@ -106,24 +116,16 @@ module.exports = {
       })
   },
   createActivity: function(req,res){
-    console.log("Running createActivity!")
+    console.log("--------------------------------")
+    console.log("Running createActivity!: ")
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
           res.end("User not found!")
         }
         else{
-          var challengeInUser = false
-          for(i=0;i<userInfo.challenges.length;i++){
-            console.log("userInfo.challenges[i]._id.toString()", userInfo.challenges[i]._id.toString())
-            console.log("req.body.challengeId.toString()", req.body.challengeId.toString())
-
-            if(userInfo.challenges[i]._id.toString() === req.body.challengeId.toString()){
-              challengeInUser = true
-              break
-            }
-          }
-          if(challengeInUser===false){
+          console.log("Resultado de query de usuario: ", userInfo)
+          if(userInfo.challenges._id.toString() === req.body.challengeId.toString()){
             res.end("The challenge that was specified is not part of the user's challenges array")
           }
           else{
@@ -144,16 +146,21 @@ module.exports = {
                     res.end("The user that was specified is not part of the challenge participants array")
                   }
                   else{
-                    var newActivity = {
-                      description: req.body.description,
-                      owner: userInfo._id,
-                      challenge: req.body.challengeId
+                    if(challengeInfo.status === "created"){
+                      res.end("The challenge has not yet been created")
                     }
-                    db.Activities
-                      .create(newActivity)
-                      .then(dbActivity=>{
-                        res.json(dbActivity)
-                      })
+                    else{
+                      var newActivity = {
+                        description: req.body.description,
+                        owner: userInfo._id,
+                        approved: false
+                      }
+                      db.Activities
+                        .create(newActivity)
+                        .then(dbActivity=>{
+                          res.json(dbActivity)
+                        })
+                    }
                   }
                 }
               })
@@ -162,6 +169,7 @@ module.exports = {
       })
   },
   activityApproval: function(req,res){
+    console.log("--------------------------------")
     console.log("Running activityApproval!")
     db.Activities
       .findOne({_id:req.body.activityId}, function(err,activityInfo){
@@ -184,6 +192,7 @@ module.exports = {
       })
   },
   startChallenge: function(req,res){
+    console.log("--------------------------------")
     console.log("Running startChallenge!")
     db.Challenges
           .findOne({_id:req.body.challengeId},function(err,challengeInfo){
