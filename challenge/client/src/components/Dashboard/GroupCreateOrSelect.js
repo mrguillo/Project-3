@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -173,23 +173,42 @@ const handleChangesJoin = event => {
   console.log(event.target.value);
 }
 
-// FETCH UID (invitation code) from Mongoose
+// Get FB id and Mongoose ID
+const[userMongoID, setUserMongoID] = useState("default")
+  
+async function getMongoIDfromFBID(fbId) {
 
-async function doit() {
-  const fbId = firebase.getCurrentUserId();
   console.log("The fbId process is ready => " + fbId);
    
   const mongooseId = await API.getUserInfo(fbId);
+  console.log(mongooseId);
   console.log("Ready with someTimeConsumingThing => " + mongooseId.data._id);
+  setUserMongoID(mongooseId.data._id)
+};
+
+useEffect(() => {
+  const fbId = firebase.getCurrentUserId();
+  getMongoIDfromFBID(fbId)}, [])
+
+const[validateInvitationCode, setValidateInvitationCode] = useState(false)
+
+async function validateMongoId(mongoId) {
+// Ruta que busque mongoID a partir del input del cliente API getUserInfoFromMongoId
+const mongooseId = await API.getUserInfoFromMongoId(mongoId);//Falta crear
+if(mongooseId) {
+  setValidateInvitationCode(true)
+}else{
+  setValidateInvitationCode(false)
+
+  
 }
- 
-doit();
+
+}  
 
   return (
-
     <React.Fragment>
       <CssBaseline />
-
+    {console.log("TCL: result" + userMongoID)}
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography
@@ -306,7 +325,7 @@ doit();
                 </ul>
               </CardContent>
               <CardActions>
-                <FullScreenDialog1 data={sendInfoNewChallenge} />
+                <FullScreenDialog1 data={sendInfoNewChallenge} code={userMongoID} />
               </CardActions>
             </Card>
           </Grid>
@@ -341,7 +360,7 @@ doit();
                 <ul></ul>
               </CardContent>
               <CardActions>
-                <FullScreenDialog2 data={sendInfoJoinChallenge}/>
+                <FullScreenDialog2 data={sendInfoJoinChallenge} code={userMongoID} onClick={() => {getMongoIDfromFBID(setSendInfoJoinChallenge.code)}}/>
               </CardActions>
             </Card>
           </Grid>

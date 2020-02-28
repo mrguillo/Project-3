@@ -15,7 +15,7 @@ export default function Dashboard(props) {
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
         console.log("Resultado de getUserInfo: ", results)
-        setNumOfChallenges(results.data.challenges.length)
+        setNumOfChallenges(0)
         console.log("numOfChallenges: ",numOfChallenges)
       })
     })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -47,15 +47,8 @@ export default function FullScreenDialog1(props) {
   
   // FETCH UID (invitation code) from Mongoose
 
-async function doit() {
-  const fbId = firebase.getCurrentUserId();
-  console.log("The fbId process is ready => " + fbId);
-   
-  const mongooseId = await API.getUserInfo(fbId);
-  console.log("Ready with someTimeConsumingThing => " + mongooseId.data._id);
-}
- 
-doit();
+
+
 
   return (
     <div>
@@ -120,6 +113,15 @@ doit();
               secondary="Weekly fee"
             />
           </ListItem>
+
+          <Divider />
+          <ListItem button>
+            <ListItemText
+              primary={" " + props.code}
+              secondary="Result"
+            />
+          </ListItem>
+
         </List>
       </Dialog>
     </div>
