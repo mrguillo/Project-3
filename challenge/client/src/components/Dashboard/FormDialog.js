@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import GoalSelect from './GoalSelector';
 import firebase from '../firebase'
 import UserContext from "../../utils/UserContext"
+import API from "../../utils/API"
 
 
 export default function FormDialog() {
@@ -20,8 +21,18 @@ export default function FormDialog() {
     setOpen(true);
   };
 
+  var activity = {
+    "firebaseId": "KfR4OKBklqepA247awyGn630cSs2",
+    "challengeId": "5e5878b608345c0687e673de",
+    "description": "Activity..."
+  }
+
   const handleClose = () => {
-    setOpen(false);
+    API.createActivity(activity).then(results => {
+      console.log("corriendo createActivity", results)
+      
+    })
+    // setOpen(false);
   };
 
   const handleTest = () => {

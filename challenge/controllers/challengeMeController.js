@@ -115,6 +115,9 @@ module.exports = {
         else{
           var challengeInUser = false
           for(i=0;i<userInfo.challenges.length;i++){
+            console.log("userInfo.challenges[i]._id.toString()", userInfo.challenges[i]._id.toString())
+            console.log("req.body.challengeId.toString()", req.body.challengeId.toString())
+
             if(userInfo.challenges[i]._id.toString() === req.body.challengeId.toString()){
               challengeInUser = true
               break
@@ -144,7 +147,7 @@ module.exports = {
                     var newActivity = {
                       description: req.body.description,
                       owner: userInfo._id,
-                      approved: false
+                      challenge: req.body.challengeId
                     }
                     db.Activities
                       .create(newActivity)
