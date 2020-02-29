@@ -10,5 +10,6 @@ router.route("/approval")
     .post(
         challengeMeController.activityApproval
     )
-
+router.route("/unapproved")
+      .get(challengeMeController.unapproved)
 module.exports = router;

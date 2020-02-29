@@ -31,7 +31,14 @@ export default function Dashboard(props) {
     })
   },[])
 
-  console.log("userInfoState: ",userInfoState)
+  // const unapprovedActivities = (challengeId) => {
+  //   console.log("Running unapproved activities with challengeId: ", challengeId._id)
+  //   API.unapprovedActivities(userInfoState.challenges._id)
+  //       .then(function(results){
+  //         console.log("results of unapproved: ", results)
+  //       })
+  // }
+
 
   var challengeCondition = false
   if(!firebase.getCurrentUsername()){
@@ -77,6 +84,7 @@ export default function Dashboard(props) {
     case "Challenge's status is started or ended":
       return (
         <React.Fragment>
+        {/* {unapprovedActivities(userInfoState.challenges)} */}
           <CssBaseline />
           <FullWidthGrid/>
         </React.Fragment>

@@ -45,7 +45,6 @@ export default function FullWidthGrid(props) {
   useEffect(()=>{
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
-        console.log("corriendo el useEffect de getUserInfo adentro de Grid", results.data)
         setUserInfoState(results.data)
         
       })
@@ -59,7 +58,6 @@ export default function FullWidthGrid(props) {
 
   return (
     <React.Fragment>
-      {/* {console.log("userInfoState: ",userInfoState.username)} */}
       <CssBaseline />
       <Container>
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />

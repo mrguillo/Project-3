@@ -12,6 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import FullWidthGrid from "./Grid"
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import MenuAppBar from "./AppBar";
 
 const InitiateChallenge = (props) => {
   const [goToDashboardGrid, setGoToDashboardGrid] = useState(false)
@@ -19,17 +20,21 @@ const InitiateChallenge = (props) => {
   if(goToDashboardGrid===false){
     return (
       <Container>
+        <Grid item xs={12}>
+          <MenuAppBar />
+        </Grid>
         <Grid item xs={2} sm={2}></Grid>
-        <Grid item xs={8} sm={8}>
+        <Grid item xs={8} sm={8} style={{textAlign: "center"}}>
           <Card width="400px">
             <CardHeader title={props.challengeInfo.name} align="center"/>
             <Divider variant="middle" />
             <CardContent>
               <Typography align="center">
-                Your challenge hasn't been  started
+                Your challenge hasn't been  started yet!
               </Typography>
               <div>
-                <Typography align="center">Jero</Typography>
+                {console.log("props: ",props.challengeInfo.owner.username)}
+                <Typography align="center">{props.challengeInfo.owner.username}</Typography>
                 <Typography align="center">Sync notes</Typography>
                 <Typography align="center">Set deadline</Typography>
               </div>
