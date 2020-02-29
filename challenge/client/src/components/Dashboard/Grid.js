@@ -6,7 +6,8 @@ import MenuAppBar from "./AppBar";
 import UserCard from "./Card";
 import ChartTable from "./ChartTable";
 import MsgSnackbar from "./Snackbar";
-import NewsFeed from "./NewsFeed";
+// import NewsFeed from "./NewsFeed";
+import NewsFeed2 from "./NewsFeed2";
 import SimpleTabs from "./Tab";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -80,7 +81,8 @@ export default function FullWidthGrid(props) {
                 <SimpleTabs />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <NewsFeed />
+                {/* <NewsFeed /> */}
+                <NewsFeed2 />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <Footer />
