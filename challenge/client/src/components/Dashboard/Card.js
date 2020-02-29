@@ -53,7 +53,6 @@ export default function UserCard(props) {
 
   return (
     <Card className={classes.root}>
-    {console.log("props dentro de card: ",props.username)}
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
