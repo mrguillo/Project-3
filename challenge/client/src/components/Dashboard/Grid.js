@@ -71,7 +71,7 @@ export default function FullWidthGrid(props) {
                 <MsgSnackbar />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <UserCard username={userInfoState.username}/>
+                <UserCard username={userInfoState.username} genObj={userInfoState}/>
               </Grid>
               <Grid item xs={12} sm={8}>
                 <ChartTable />

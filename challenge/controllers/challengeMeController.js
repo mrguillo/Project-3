@@ -119,8 +119,11 @@ module.exports = {
   createActivity: function(req,res){
     console.log("--------------------------------")
     console.log("Running createActivity!: ")
+    console.log("req.body.firebaseId", req.body.firebaseId)
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
+        console.log("userInfo", userInfo)
+        // console.log("userInfo", userInfo)
         if(err){
           res.status(422).send("User not found!")
         }

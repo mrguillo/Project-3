@@ -75,7 +75,7 @@ export default function UserCard(props) {
       <Divider variant="middle" />
 
       <CardContent>
-        <FormDialog />
+        <FormDialog genObj={props.genObj} />
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="share">
