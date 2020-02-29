@@ -18,6 +18,12 @@ export default {
     },
     createActivity: function(activityData){
       return axios.post("/api/activities/create",activityData)
+    },
+    unapprovedActivities: function(unapprovedInfo){
+      return axios.get("/api/activities/unapproved",unapprovedInfo)
+    },
+    approveActivity: function(approvalInfo){
+      return axios.post("/api/activities/approval", approvalInfo)
     }
 };
 

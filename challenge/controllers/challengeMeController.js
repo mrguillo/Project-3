@@ -156,7 +156,8 @@ module.exports = {
                       var newActivity = {
                         description: req.body.description,
                         owner: userInfo._id,
-                        approved: false
+                        approved: false,
+                        challenge: challengeInfo._id
                       }
                       db.Activities
                         .create(newActivity)
@@ -181,17 +182,15 @@ module.exports = {
           res.status(422).send("The activity was not found")
         }
         else{
-          if(req.body.approved === true && req.body.rejected === false){
-            db.Activities
-              .update({_id: req.body.activityId},{$set: {approved: true}})
-              .then(nModified => res.send(nModified))
-          }
-          else if(req.body.approved === false && req.body.rejected === true){
-            db.Activities
-              .update({_id: req.body.activityId},{$set: {rejected: true}})
-              .then(nModified => res.send(nModified))
-          }
-          else res.status(422).send("The activity could not be updated!")
+          db.Activities
+            .update({_id: req.body.activityId},{$set: {status: req.body.status}},function(err,results){
+              if(err){
+                res.status(422).send("We were unable to update the activity's status")
+              }
+              else{
+                res.send(results)
+              }
+            })
         }
       })
   },
@@ -210,5 +209,29 @@ module.exports = {
                 res.send(nModified)
               })
           })
+        },
+  unapproved: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running unapproved!")
+    db.Users
+      .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
+        if(err || userInfo === null){
+          res.status(422).send("User not found!")
         }
+        else{
+          db.Activities
+            // .find({challenge:req.body.challengeId, status: "created",owner: {$ne: userInfo._id}},function(err,results){
+              //Temporalmente se comento la linea de arriba para probar en el front pero es la definitiva
+            .find({challenge:req.body.challengeId, status: "created"},function(err,results){
+              if(err){
+                res.status(422).send("An error ocurred while querying the Database for all challenges with created status")
+              }
+              else{
+                console.log("Results of unapproved: ",results)
+                res.send(results)
+              }
+            })
+        }
+      })
+  }
 };
