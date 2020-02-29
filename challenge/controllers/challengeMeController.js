@@ -61,6 +61,7 @@ module.exports = {
                 .then(userModel =>{
                   res.json(dbModel)
                 })
+                .catch(err => res.status(422).json(err));
             })
         }
         })
@@ -71,12 +72,12 @@ module.exports = {
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
-          res.send("User not found!")
+          res.status(422).send("User not found!")
         }
         db.Challenges
           .findOne({_id:req.body.invitationCode},function(err,challengeInfo){
             if(err){
-              res.send("Invalid invitation code")
+              res.status(422).send("Invalid invitation code")
             }
             db.Users
               .update({_id:userInfo._id},{$set:{challenges:challengeInfo._id}})
@@ -110,7 +111,7 @@ module.exports = {
       .populate("owner")
       .exec(function(err,challenge){
         if(err){
-          res.send(err)
+          res.status(422).send(err)
         }
         res.json(challenge)
       })
@@ -121,18 +122,17 @@ module.exports = {
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
-          res.end("User not found!")
+          res.status(422).send("User not found!")
         }
         else{
-          console.log("Resultado de query de usuario: ", userInfo)
-          if(userInfo.challenges._id.toString() === req.body.challengeId.toString()){
-            res.end("The challenge that was specified is not part of the user's challenges array")
+          if(userInfo.challenges._id.toString() !== req.body.challengeId.toString()){
+            res.status(422).send("The challenge that was specified is not part of the user's challenges array")
           }
           else{
             db.Challenges
               .findOne({_id: req.body.challengeId},function(err,challengeInfo){
                 if(err){
-                  res.end("Challenge not found!")
+                  res.status(422).send("Challenge not found!")
                 }
                 else{
                   var userInChallenge = false
@@ -143,11 +143,11 @@ module.exports = {
                     }
                   }
                   if(userInChallenge===false){
-                    res.end("The user that was specified is not part of the challenge participants array")
+                    res.status(422).send("The user that was specified is not part of the challenge participants array")
                   }
                   else{
                     if(challengeInfo.status === "created"){
-                      res.end("The challenge has not yet been created")
+                      res.status(422).send("The challenge has not yet been created")
                     }
                     else{
                       var newActivity = {
@@ -158,6 +158,7 @@ module.exports = {
                       db.Activities
                         .create(newActivity)
                         .then(dbActivity=>{
+                          console.log("Results of createActivity: ", dbActivity)
                           res.json(dbActivity)
                         })
                     }
@@ -174,7 +175,7 @@ module.exports = {
     db.Activities
       .findOne({_id:req.body.activityId}, function(err,activityInfo){
         if(err){
-          res.end("The activity was not found")
+          res.status(422).send("The activity was not found")
         }
         else{
           if(req.body.approved === true && req.body.rejected === false){
@@ -187,7 +188,7 @@ module.exports = {
               .update({_id: req.body.activityId},{$set: {rejected: true}})
               .then(nModified => res.send(nModified))
           }
-          else res.end("The activity could not be updated!")
+          else res.status(422).send("The activity could not be updated!")
         }
       })
   },
@@ -197,7 +198,7 @@ module.exports = {
     db.Challenges
           .findOne({_id:req.body.challengeId},function(err,challengeInfo){
             if(err){
-              res.send("Invalid challenge Id")
+              res.status(422).send("Invalid challenge Id")
             }
             db.Challenges
               .updateOne({_id:req.body.challengeId},{$set:{status: "started"},$currentDate:{startingDate: true}})
