@@ -48,8 +48,9 @@ export default function FullScreenDialog1(props) {
            console.log(err)
          }
          else{
-           setGoToDashboardGrid(true)
-           setOpen(false);
+          //  setGoToDashboardGrid(true)
+          //  setOpen(false);
+          window.location.reload();
          }
        })
   }
@@ -114,7 +115,7 @@ doit();
             <ListItem button>
               <ListItemText
                 secondary="Challenge Name"
-                primary={props.data.challenge}
+                primary={props.data.name}
               />
             </ListItem>
             <Divider />
