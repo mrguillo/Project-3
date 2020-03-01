@@ -73,11 +73,13 @@ module.exports = {
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
+          console.lof(err);
           res.status(422).send("User not found!")
         }
         db.Challenges
           .findOne({_id:req.body.invitationCode},function(err,challengeInfo){
             if(err){
+              console.lof(err);
               res.status(422).send("Invalid invitation code")
             }
             db.Users

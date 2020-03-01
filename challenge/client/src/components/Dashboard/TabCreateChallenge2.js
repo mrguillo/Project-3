@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import API from "../../utils/API"
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -35,6 +36,20 @@ export default function FullScreenDialog2(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const clickOnJoin = ()=>{
+    API.joinChallenge(props)
+       .then((results,err)=>{
+         if(err){
+           console.log(err)
+         }
+         else{
+          //  setGoToDashboardGrid(true)
+          //  setOpen(false);
+          window.location.reload();
+         }
+       })
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -64,22 +79,22 @@ export default function FullScreenDialog2(props) {
             <Typography variant="h6" className={classes.title}>
             Please review
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={clickOnJoin}>
               Confirm
             </Button>
           </Toolbar>
         </AppBar>
         <List>
           <ListItem button>
-            <ListItemText primary={props.data.code} secondary="Invitation code" />
+            <ListItemText primary={props.data.invitationCode} secondary="Invitation code" />
           </ListItem>
           <Divider />
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemText
               primary="Default notification ringtone"
               secondary="Challenge name"
             />
-          </ListItem>
+          </ListItem> */}
         </List>
       </Dialog>
     </div>

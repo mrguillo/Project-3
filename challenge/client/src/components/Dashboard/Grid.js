@@ -90,9 +90,7 @@ export default function FullWidthGrid(props) {
               <Grid item xs={12}>
                 <MenuAppBar />
               </Grid>
-              <Grid item xs={12}>
-                <MsgSnackbar />
-              </Grid>
+
               <Grid item xs={12} sm={4}>
                 <UserCard username={userInfoState.username} genObj={userInfoState}/>
               </Grid>
