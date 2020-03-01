@@ -175,10 +175,7 @@ const handleChangesJoin = event => {
   console.log(event.target.value);
 }
 
-// Get FB id and Mongoose ID
-const[userMongoID, setUserMongoID] = useState("default")
-  
-async function getMongoIDfromFBID(fbId) {
+// FETCH UID (invitation code) from Mongoose
 
 useEffect(()=>{
   setSendInfoNewChallenge({...sendInfoNewChallenge, firebaseId: props.firebaseId});
@@ -192,9 +189,8 @@ useEffect(()=>{
  
 // doit();
 
-}  
-
   return (
+
     <React.Fragment>
       <CssBaseline />
       {/* Hero unit */}
@@ -348,7 +344,7 @@ useEffect(()=>{
                 <ul></ul>
               </CardContent>
               <CardActions>
-                <FullScreenDialog2 data={sendInfoJoinChallenge} code={userMongoID} onClick={() => {getMongoIDfromFBID(setSendInfoJoinChallenge.code)}}/>
+                <FullScreenDialog2 data={sendInfoJoinChallenge}/>
               </CardActions>
             </Card>
           </Grid>
