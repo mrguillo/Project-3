@@ -1,4 +1,5 @@
 const db = require("../models");
+var moment = require("moment");
 
 module.exports = {
   createUser: function(req,res){
@@ -233,5 +234,47 @@ module.exports = {
             })
         }
       })
+  },
+  approvedInPeriod: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running approvedInPeriod!")
+    if(req.params.challengeId===""){
+      res.status(422).send("Empty request params!")
+    }
+    else{
+      db.Challenges
+        .findOne({_id: req.params.challengeId},function(err,challengeInfo){
+          if(err){
+            res.status(422).send("The challenge was not found")
+          }
+          else{
+            var startingDate = moment(challengeInfo.startingDate)
+            var desiredDate = moment(Date.now())
+            var startOfWeek = startingDate.set({hour:0,minute:0,second:0,millisecond:0})
+            var endOfWeek = startOfWeek.clone().add(6,"days").set({hour:23,minute:59,second:59,millisecond:999})
+            if(desiredDate.isBefore(startOfWeek)){
+              res.status(422).send("The desired date is before the starting date of the challenge")
+            }
+            else{
+              while(desiredDate.isAfter(endOfWeek)){
+                startOfWeek = startOfWeek.add(7,"days")
+                endOfWeek = endOfWeek.add(7,"days")
+              }
+              db.Activities
+                .find({creationDate: {$gte: startOfWeek.toDate(),$lte: endOfWeek.toDate()},status:"approved"})
+                .populate("owner")
+                .exec(function(err,results){
+                  if(err){
+                    res.status(422).send("The query for activities within the week of desired date returned an error")
+                  }
+                  else{
+                    console.log("Results of approvedInPeriod: ",results)
+                    res.json(results)
+                  }
+                })
+            }
+          }
+        })
+    }
   }
 };

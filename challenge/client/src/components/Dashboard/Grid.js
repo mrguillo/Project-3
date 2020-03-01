@@ -40,12 +40,36 @@ export default function FullWidthGrid(props) {
         "creationDate": ""
     }
   )
+  const [activitiesInPeriod, setActivitiesInPeriod] = useState(
+    [{
+      "status":"",
+      "_id":"",
+      "description":"",
+      "owner":{
+        "_id":"",
+        "username":"",
+        "email":"",
+        "firebaseId":"",
+        "creationDate":"",
+        "challenges":"",
+        "ownedChallenges":""
+      },
+      "challenge":"",
+      "creationDate":""
+    }
+    ]
+  )
 
   useEffect(()=>{
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
         setUserInfoState(results.data)
-        
+        if(results.data.challenges._id.length > 0){
+          console.log("results.data.challenges._id: ",results.data.challenges._id.length)
+          API.approvedInPeriod(results.data.challenges._id).then(results =>{
+            setActivitiesInPeriod(results)
+          })
+        }
       })
       // setFirebaseState(val.uid)
       // console.log("val.uid en  useEffect: ",val.uid)
@@ -59,6 +83,7 @@ export default function FullWidthGrid(props) {
     <React.Fragment>
       <CssBaseline />
       <Container>
+        {console.log("activitiesInPeriod: ",activitiesInPeriod)}
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
           <div className={classes.root}>
             <Grid container spacing={3}>

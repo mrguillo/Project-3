@@ -24,6 +24,10 @@ export default {
     },
     approveActivity: function(approvalInfo){
       return axios.post("/api/activities/approval", approvalInfo)
+    },
+    approvedInPeriod: function(challengeId){
+      console.log("running approvedInPeriod: ",challengeId)
+      return axios.get("/api/activities/approvedinperiod/" + challengeId)
     }
 };
 
