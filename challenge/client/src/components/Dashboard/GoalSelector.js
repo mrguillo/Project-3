@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function GoalSelect() {
+export default function GoalSelect(props) {
   const classes = useStyles();
   const [goal, setGoal] = React.useState("");
 
@@ -37,6 +37,7 @@ export default function GoalSelect() {
           id="outlined-basic"
           label="Your activity"
           variant="outlined"
+          onChange={props.handleInputChange}
         />
       </form>
     </div>

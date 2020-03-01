@@ -5,8 +5,8 @@ const activitySchema = new Schema({
   description: String,
   creationDate: { type: Date, default: Date.now },
   owner: {type: Schema.Types.ObjectId, ref: 'Users'},
-  rejected: Boolean,
-  approved: Boolean,
+  challenge: {type: Schema.Types.ObjectId, ref: 'Challenges'},
+  status: {type: String, default: "created"},
   approvalDate: Date,
   approver: {type: Schema.Types.ObjectId, ref: 'Users'}
 });
