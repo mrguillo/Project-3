@@ -47,16 +47,24 @@ export default function FullWidthGrid(props) {
     }
     ]
   )
+  const [overallInfo, setOverallInfo] = useState(
+    [{
+      "name":"",
+      "activitiesOwed:":"",
+      "owes":""
+    }]
+  )
 
   useEffect(()=>{
     firebase.isInitialized().then(val => {
-      API.getUserInfo(val.uid).then(results => {
-        setUserInfoState(results.data)
-        if(results.data.challenges._id.length > 0){
-          console.log("results.data.challenges._id: ",results.data.challenges._id.length)
-          API.approvedInPeriod(results.data.challenges._id).then(results =>{
-            console.log("result.data en useEffect de grid: ",results.data.data)
-            setActivitiesInPeriod(results.data.data)
+      API.getUserInfo(val.uid).then(userInfoResults => {
+        setUserInfoState(userInfoResults.data)
+        if(userInfoResults.data.challenges._id.length > 0){
+          API.approvedInPeriod(userInfoResults.data.challenges._id).then(approvedInPresults =>{
+          setActivitiesInPeriod(approvedInPresults.data.data)
+          API.overall(userInfoResults.data.challenges._id).then(overallResults =>{
+            setOverallInfo(overallResults.data.overallData)
+          })
           })
         }
       })
@@ -83,7 +91,7 @@ export default function FullWidthGrid(props) {
                 <UserCard username={userInfoState.username} genObj={userInfoState}/>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <ChartTable data={activitiesInPeriod} />
+                <ChartTable data={activitiesInPeriod} overall={overallInfo}/>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <SimpleTabs />
