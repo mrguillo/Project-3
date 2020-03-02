@@ -42,20 +42,8 @@ export default function FullWidthGrid(props) {
   )
   const [activitiesInPeriod, setActivitiesInPeriod] = useState(
     [{
-      "status":"",
-      "_id":"",
-      "description":"",
-      "owner":{
-        "_id":"",
-        "username":"",
-        "email":"",
-        "firebaseId":"",
-        "creationDate":"",
-        "challenges":"",
-        "ownedChallenges":""
-      },
-      "challenge":"",
-      "creationDate":""
+      "name":"",
+      "units":""
     }
     ]
   )
@@ -67,7 +55,8 @@ export default function FullWidthGrid(props) {
         if(results.data.challenges._id.length > 0){
           console.log("results.data.challenges._id: ",results.data.challenges._id.length)
           API.approvedInPeriod(results.data.challenges._id).then(results =>{
-            setActivitiesInPeriod(results)
+            console.log("result.data en useEffect de grid: ",results.data.data)
+            setActivitiesInPeriod(results.data.data)
           })
         }
       })
@@ -83,7 +72,6 @@ export default function FullWidthGrid(props) {
     <React.Fragment>
       <CssBaseline />
       <Container>
-        {console.log("activitiesInPeriod: ",activitiesInPeriod)}
         <Typography component="div" style={{ backgroundColor: "#cfe8fc" }} />
           <div className={classes.root}>
             <Grid container spacing={3}>
@@ -95,7 +83,7 @@ export default function FullWidthGrid(props) {
                 <UserCard username={userInfoState.username} genObj={userInfoState}/>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <ChartTable />
+                <ChartTable data={activitiesInPeriod} />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <SimpleTabs />

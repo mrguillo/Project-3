@@ -16,4 +16,7 @@ router.route("/unapproved")
 router.route("/approvedinperiod/:challengeId")
     .get(challengeMeController.approvedInPeriod)
 
+router.route("/overall/:challengeId")
+      .get(challengeMeController.overAll)
+
 module.exports = router;

@@ -11,7 +11,7 @@ export default {
       return axios.post("/api/challenges/create",challengeData)
     },
     joinChallenge: function(joinData){
-      return axios.post("/api/challenges/join",joinData)
+      return axios.post("/api/challenges/join",joinData.data)
     },
     startChallenge: function(startChallengeData){
       return axios.post("api/challenges/start",startChallengeData)
