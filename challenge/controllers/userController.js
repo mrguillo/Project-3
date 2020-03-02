@@ -33,5 +33,26 @@ module.exports = {
           res.json(userInfo)
         }
       )
+  },
+  getUserInfo: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running getUserInfo")
+    console.log("req.body", req.body)
+    db.Users
+      .findOne({_id: req.params.id})
+      .populate({
+        path: "challenges",
+        populate:{
+          path: "participants owner"
+        }
+      })
+      .exec(function(err,userInfo){
+          if(err){
+            res.status(400).json(err)
+          }
+          console.log("Result of getUserInfo: ",userInfo)
+          res.json(userInfo)
+        }
+      )
   }
 };

@@ -12,13 +12,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ApprovedBtn() {
+export default function ApprovedBtn(props) {
   const classes = useStyles();
+
 
   return (
     <div className={classes.root}>
 
-      <Button variant="outlined" color="primary" href="#contained-buttons">
+      {/* Set status="approved" */}
+
+      <Button variant="outlined" color="primary" _id={props._id} status={props.status} onClick={() => props.approveActivity(props._id)}>
         Approve
       </Button>
 
