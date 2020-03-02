@@ -16,6 +16,7 @@ module.exports = {
   findUser: function(req,res){
     console.log("--------------------------------")
     console.log("Running findUser")
+    console.log("req.body", req.body)
     db.Users
       .findOne({firebaseId: req.params.firebaseId})
       .populate({
@@ -29,6 +30,27 @@ module.exports = {
             res.status(400).json(err)
           }
           console.log("Result of findUser: ",userInfo)
+          res.json(userInfo)
+        }
+      )
+  },
+  getUserInfo: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running getUserInfo")
+    console.log("req.body", req.body)
+    db.Users
+      .findOne({_id: req.params.id})
+      .populate({
+        path: "challenges",
+        populate:{
+          path: "participants owner"
+        }
+      })
+      .exec(function(err,userInfo){
+          if(err){
+            res.status(400).json(err)
+          }
+          console.log("Result of getUserInfo: ",userInfo)
           res.json(userInfo)
         }
       )
@@ -176,14 +198,17 @@ module.exports = {
   activityApproval: function(req,res){
     console.log("--------------------------------")
     console.log("Running activityApproval!")
+    console.log("req::::::::::", req.body)
     db.Activities
-      .findOne({_id:req.body.activityId}, function(err,activityInfo){
+      .findOne({_id:req.body.id}, function(err,activityInfo){
         if(err){
           res.status(422).send("The activity was not found")
+          console.log("The activity was not found")
         }
         else{
+          console.log("Activity founded")
           db.Activities
-            .update({_id: req.body.activityId},{$set: {status: req.body.status}},function(err,results){
+            .update({_id: req.body.id},{$set: {status: "approved"}},function(err,results){
               if(err){
                 res.status(422).send("We were unable to update the activity's status")
               }
@@ -213,16 +238,21 @@ module.exports = {
   unapproved: function(req,res){
     console.log("--------------------------------")
     console.log("Running unapproved!")
+    // console.log("req", req)
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err || userInfo === null){
           res.status(422).send("User not found!")
+          console.log("User NOT found")
         }
         else{
+          console.log("User found")
+          console.log("req.body.challengeId", req.body.challengeId)
+
           db.Activities
             // .find({challenge:req.body.challengeId, status: "created",owner: {$ne: userInfo._id}},function(err,results){
               //Temporalmente se comento la linea de arriba para probar en el front pero es la definitiva
-            .find({challenge:req.body.challengeId, status: "created"},function(err,results){
+            .find({challenge:req.body.challenges._id, status: "created"},function(err,results){
               if(err){
                 res.status(422).send("An error ocurred while querying the Database for all challenges with created status")
               }

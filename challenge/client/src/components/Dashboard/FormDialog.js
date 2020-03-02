@@ -50,6 +50,7 @@ export default function FormDialog(props) {
     console.log("activityState", activityState)
     API.createActivity(activityState).then(results => {
       console.log("corriendo createActivity", results)
+      props.addActivity()
     })
     setOpen(false);
   };

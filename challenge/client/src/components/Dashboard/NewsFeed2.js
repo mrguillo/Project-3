@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import ApprovedByChip from './ApprovedChip';
 import ApproveBtn from './ApproveButton';
+import API from "../../utils/API"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,8 +22,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NewsFeed() {
+
+
+
+
+
+export default function NewsFeed(props) {
   const classes = useStyles();
+
+
+  const [userName, setName] = useState(
+    ""
+    )
+
+
+  API.getUserDetails(props.username).then(results => {
+    console.log("props.username", props.username)
+    console.log("results.data:", results.data.username)
+    setName(results.data.username)
+  })
+  
+
+
+
+
+
+
+
+
 
   return (
     <List className={classes.root}>
@@ -31,7 +58,7 @@ export default function NewsFeed() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Luis"
+          primary={userName}
           secondary={
             <React.Fragment>
               <Typography
@@ -40,12 +67,13 @@ export default function NewsFeed() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                Run 3.5 miles or more
+                {props.description}
               </Typography>
-              {" — Posted on Apr 28, 2020 at 7:58am"}
+              {" — Posted on " + props.creationDate}
             </React.Fragment>
           }
-        /><ApproveBtn />
+        />
+        <ApproveBtn approveActivity={props.approveActivity} _id={props._id} status={props.status}/>
       </ListItem>
       <Divider variant="inset" component="li" />
     </List>

@@ -42,11 +42,27 @@ export default function FullWidthGrid(props) {
     }
   )
 
+  const [activitiesState, setActivitiesState] = useState(
+    []
+  )
+
   useEffect(()=>{
     firebase.isInitialized().then(val => {
+      console.log("val.uid", val.uid)
       API.getUserInfo(val.uid).then(results => {
         setUserInfoState(results.data)
-        
+        // console.log("results:::::::", results.data)
+        console.log("userInfoState.firebaseId:::", results.data.firebaseId)
+        console.log("userInfoState.ownedChallenges:::", results.data.ownedChallenges)
+        // API.unapprovedActivities({"firebaseId":userInfoState.firebaseId, "challenge":userInfoState.ownedChallenges}).then(res => {
+          console.log("results.data----", results.data)
+          console.log("results.data.challenges._id", results.data.challenges._id)
+          API.unapprovedActivities(results.data).then(res => {
+          // setUserInfoState(results.data)
+          console.log("Brought Unapproved Activities")
+          console.log("res+++", res)
+          setActivitiesState(res.data)
+        })
       })
       // setFirebaseState(val.uid)
       // console.log("val.uid en  useEffect: ",val.uid)
@@ -55,6 +71,62 @@ export default function FullWidthGrid(props) {
 
   // useEffect(() => {
   // },[firebaseState]);
+
+
+
+  const addActivity = id => {
+    firebase.isInitialized().then(val => {
+      API.getUserInfo(val.uid).then(results => {
+        setUserInfoState(results.data)
+        // console.log("results:::::::", results.data)
+        console.log("userInfoState.firebaseId:::", results.data.firebaseId)
+        console.log("userInfoState.ownedChallenges:::", results.data.ownedChallenges)
+        // API.unapprovedActivities({"firebaseId":userInfoState.firebaseId, "challenge":userInfoState.ownedChallenges}).then(res => {
+          console.log("results.data----", results.data)
+          console.log("results.data.challenges._id", results.data.challenges._id)
+          API.unapprovedActivities(results.data).then(res => {
+          // setUserInfoState(results.data)
+          console.log("Brought Unapproved Activities")
+          console.log("res+++", res)
+          setActivitiesState(res.data)
+        })
+      })
+      // setFirebaseState(val.uid)
+      // console.log("val.uid en  useEffect: ",val.uid)
+    })
+  }
+
+
+
+
+  const approveActivity = id => {
+    API.approveActivity({id}).then(results => {
+      console.log("corriendo approveActivity", results)
+    })
+    // const activities = activitiesState.filter(activity => activity._id !== id);
+    // setActivitiesState({ activities })
+
+    firebase.isInitialized().then(val => {
+      API.getUserInfo(val.uid).then(results => {
+        setUserInfoState(results.data)
+        // console.log("results:::::::", results.data)
+        console.log("userInfoState.firebaseId:::", results.data.firebaseId)
+        console.log("userInfoState.ownedChallenges:::", results.data.ownedChallenges)
+        // API.unapprovedActivities({"firebaseId":userInfoState.firebaseId, "challenge":userInfoState.ownedChallenges}).then(res => {
+          console.log("results.data----", results.data)
+          console.log("results.data.challenges._id", results.data.challenges._id)
+          API.unapprovedActivities(results.data).then(res => {
+          // setUserInfoState(results.data)
+          console.log("Brought Unapproved Activities")
+          console.log("res+++", res)
+          setActivitiesState(res.data)
+        })
+      })
+      // setFirebaseState(val.uid)
+      // console.log("val.uid en  useEffect: ",val.uid)
+    })
+  };
+
 
   return (
     <React.Fragment>
@@ -70,7 +142,7 @@ export default function FullWidthGrid(props) {
                 <MsgSnackbar />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <UserCard username={userInfoState.username} genObj={userInfoState}/>
+                <UserCard username={userInfoState.username} genObj={userInfoState} addActivity={addActivity}/>
               </Grid>
               <Grid item xs={12} sm={8}>
                 <ChartTable />
@@ -80,7 +152,16 @@ export default function FullWidthGrid(props) {
               </Grid>
               <Grid item xs={12} sm={12}>
                 {/* <NewsFeed /> */}
-                <NewsFeed2 />
+                {activitiesState.map(activity => (
+                  <NewsFeed2
+                  approveActivity={approveActivity}
+                  _id={activity._id}
+                  status={activity.status}
+                  username={activity.owner}
+                  description={activity.description}
+                  creationDate={activity.creationDate}
+                  />
+                ))}
               </Grid>
               <Grid item xs={12} sm={12}>
                 <Footer />

@@ -8,4 +8,7 @@ router.route("/create")
 router.route("/find/:firebaseId")
   .get(challengeMeController.findUser)
 
+router.route("/getuserinfo/:id")
+  .get(challengeMeController.getUserInfo)
+
 module.exports = router;
