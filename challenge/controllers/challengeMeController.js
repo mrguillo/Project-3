@@ -1,4 +1,5 @@
 const db = require("../models");
+var moment = require("moment");
 
 module.exports = {
   createUser: function(req,res){
@@ -48,6 +49,7 @@ module.exports = {
             status: "created",
             duration: req.body.data.duration,
             unitCost: req.body.data.unitCost,
+            qtyOfActPerWeek: req.body.data.qtyOfActPerWeek,
             currency: req.body.data.currency,
             rules: req.body.data.rules,
             owner: userInfo._id,
@@ -68,7 +70,7 @@ module.exports = {
   },
   joinChallenge: function(req,res){
     console.log("--------------------------------")
-    console.log("Running joinChallenge")
+    console.log("Running joinChallenge",req.body)
     db.Users
       .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
         if(err){
@@ -235,5 +237,133 @@ module.exports = {
             })
         }
       })
+  },
+  approvedInPeriod: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running approvedInPeriod!")
+    if(req.params.challengeId===""){
+      res.status(422).send("Empty request params!")
+    }
+    else{
+      db.Challenges
+        .findOne({_id: req.params.challengeId})
+        .populate("participants")
+        .exec(function(err,challengeInfo){
+          if(err){
+            res.status(422).send("The challenge was not found")
+          }
+          else{
+            var startingDate = moment(challengeInfo.startingDate)
+            var desiredDate = moment(Date.now())
+            var startOfWeek = startingDate.set({hour:0,minute:0,second:0,millisecond:0})
+            var endOfWeek = startOfWeek.clone().add(6,"days").set({hour:23,minute:59,second:59,millisecond:999})
+            if(desiredDate.isBefore(startOfWeek)){
+              res.status(422).send("The desired date is before the starting date of the challenge")
+            }
+            else{
+              while(desiredDate.isAfter(endOfWeek)){
+                startOfWeek = startOfWeek.add(7,"days")
+                endOfWeek = endOfWeek.add(7,"days")
+              }
+              db.Activities
+                .find({creationDate: {$gte: startOfWeek.toDate(),$lte: endOfWeek.toDate()},status:"approved"})
+                .populate("owner")
+                .exec(function(err,results){
+                  if(err){
+                    res.status(422).send("The query for activities within the week of desired date returned an error")
+                  }
+                  else{
+                    var thisWeekData = []
+                    challengeInfo.participants.map(function(participant){
+                      var thisCount = 0;               
+                      results.map(function(activity){
+                        if(activity.owner._id.toString() === participant._id.toString()){
+                          thisCount++
+                        }
+                      })
+                      var thisParticipant = {
+                        name: participant.username,
+                        units: thisCount,
+                        owes: "$" + (challengeInfo.qtyOfActPerWeek - thisCount) * challengeInfo.unitCost
+                      }
+                      thisWeekData.push(thisParticipant)
+                    })
+                    console.log("Results of approvedInPeriod: ",{data: thisWeekData})
+                    res.json({data: thisWeekData})
+                  }
+                })
+            }
+          }
+        })
+    }
+  },
+  overAll: function(req,res){
+    console.log("--------------------------------")
+    console.log("Running overAll!")
+    var overAllInfo = []
+    if(req.params.challengeId===""){
+      res.status(422).send("Empty request params!")
+    }
+    else{
+      db.Challenges
+        .findOne({_id: req.params.challengeId})
+        .populate("participants")
+        .exec(function(err,challengeInfo){
+          if(err){
+            res.status(422).send("The challenge was not found")
+          }
+          else{
+            var startingDate = moment(challengeInfo.startingDate)
+            var desiredDate = moment(Date.now())
+            var startOfWeek = startingDate.set({hour:0,minute:0,second:0,millisecond:0})
+            var endOfWeek = startOfWeek.clone().add(6,"days").set({hour:23,minute:59,second:59,millisecond:999})
+            var activitiesOwedInWeek = 0
+            if(desiredDate.isBefore(startOfWeek)){
+              res.status(422).send("The desired date is before the starting date of the challenge")
+            }
+            else{
+              challengeInfo.participants.map(async function(participant){
+                console.log("//////////////////////////////////")
+                console.log("Nuevo participante")
+                console.log("participant.username: ",participant.username)
+                console.log("//////////////////////////////////")
+                startingDate = moment(challengeInfo.startingDate)
+                desiredDate = moment(Date.now())
+                startOfWeek = startingDate.set({hour:0,minute:0,second:0,millisecond:0})
+                endOfWeek = startOfWeek.clone().add(6,"days").set({hour:23,minute:59,second:59,millisecond:999})    
+                activitiesOwedInWeek = 0
+                do{
+                  console.log("****************************************")
+                  console.log("Nuevo loop")
+                  console.log("startOfWeek: ",startOfWeek)
+                  console.log("endOfWeek: ",endOfWeek)
+                  db.Activities
+                  .find({creationDate: {$gte: startOfWeek.toDate(),$lte: endOfWeek.toDate()},status:"approved",owner: participant._id})
+                  .exec(function(err,activitiesInWeek){
+                    if(err){
+                      res.status(422).send("There was an error while trying to recover activities for the week")
+                    }
+                    else{
+                      activitiesOwedInWeek = activitiesOwedInWeek + (challengeInfo.qtyOfActPerWeek - activitiesInWeek.length)
+                      startOfWeek = startOfWeek.add(7,"days")
+                      endOfWeek = endOfWeek.add(7,"days")
+                      console.log("activitiesOwedInWeek resultante de loop: ",activitiesOwedInWeek)
+                      console.log("****************************************")
+                    }
+                  })
+                }
+                while(desiredDate.isAfter(endOfWeek))
+                console.log("despues de do-while: ",activitiesOwedInWeek)
+                overAllInfo.push({
+                  name: participant.username,
+                  activitiesOwed: activitiesOwedInWeek,
+                  owes: activitiesOwedInWeek * challengeInfo.unitCost
+                })
+              })
+              res.json({overallData: overAllInfo})
+            }
+          }
+        })
+    }
   }
 };

@@ -119,6 +119,12 @@ export default function FullScreenDialog1(props) {
                 secondary="Rules of the Challenge"
               />
             </ListItem>
+            <ListItem button>
+              <ListItemText
+                primary={props.data.qtyOfActPerWeek}
+                secondary="Quantity of necessary activities per week"
+              />
+            </ListItem>
             <Divider />
             <ListItem button>
               <ListItemText
@@ -129,8 +135,8 @@ export default function FullScreenDialog1(props) {
             <Divider />
             <ListItem button>
               <ListItemText
-                primary={"$ " + props.data.fee}
-                secondary="Weekly fee"
+                primary={"$ " + props.data.unitCost}
+                secondary="Weekly unit cost"
               />
             </ListItem>
           </List>

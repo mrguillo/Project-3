@@ -135,6 +135,7 @@ export default function Action(props) {
   const [sendInfoNewChallenge, setSendInfoNewChallenge] = React.useState({
     name: null,
     rules: null,
+    qtyOfActPerWeek: null,
     duration: 0,
     unitCost: 0,
     firebaseId: ""
@@ -161,9 +162,11 @@ export default function Action(props) {
       case 'duration':
         setSendInfoNewChallenge({...sendInfoNewChallenge, duration: event.target.value});
       break;
-      case 'fee':
+      case 'unitCost':
         setSendInfoNewChallenge({...sendInfoNewChallenge, unitCost: event.target.value});
       break;
+      case "qtyOfActPerWeek":
+        setSendInfoNewChallenge({...sendInfoNewChallenge, qtyOfActPerWeek: event.target.value});
       default:
         break;
     }
@@ -259,7 +262,32 @@ useEffect(()=>{
                     onChange={handleChanges}
                   />
                 </div>
-
+                <div className={classes.cardPricing}>
+                  <FormControl className={classes.formControl} fullWidth>
+                    <InputLabel id="qtyOfActPerWeek">
+                      Quantity of necessary activities per week
+                    </InputLabel>
+                    <Select
+                      labelId="qtyOfActPerWeek"
+                      id="qtyOfActPerWeek"
+                      value={sendInfoNewChallenge.qtyOfActPerWeek}
+                      onChange={handleChanges}
+                      name='qtyOfActPerWeek'
+                    >
+                      <MenuItem value="">
+                        <em>Select:</em>
+                      </MenuItem>
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                    </Select>
+                    <FormHelperText>Establish the quantity of necessary activities per week</FormHelperText>
+                  </FormControl>
+                </div>
                 <div className={classes.cardPricing}>
                   <FormControl className={classes.formControl} fullWidth>
                     <InputLabel id="Duration">
@@ -288,11 +316,11 @@ useEffect(()=>{
                       Weekly Fee
                     </InputLabel>
                     <Select
-                      labelId="weeklyFee"
-                      id="fee"
-                      value={sendInfoNewChallenge.fee}
+                      labelId="unitCost"
+                      id="unitCost"
+                      value={sendInfoNewChallenge.unitCost}
                       onChange={handleChanges}
-                      name='fee'
+                      name='unitCost'
                     >
                       <MenuItem value="">
                         <em>Choose</em>
