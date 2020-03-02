@@ -50,7 +50,7 @@ function Logout(props) {
 					<VerifiedUserOutlined />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Hello { firebase.getCurrentUsername() }
+					Bye bye { firebase.getCurrentUsername() }
 				</Typography>
 				<Button type="submit" fullWidth variant="contained" color="secondary" onClick={logout} className={classes.submit}>
 					Logout

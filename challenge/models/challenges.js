@@ -8,6 +8,7 @@ const challengeSchema = new Schema({
   unitCost: Number,
   currency: String,
   rules: String,
+  qtyOfActPerWeek: Number,
   creationDate: { type: Date, default: Date.now },
   startingDate: Date,
   owner: {type: Schema.Types.ObjectId, ref: 'Users'},

@@ -7,6 +7,7 @@ import Exercises from "../Exercises";
 import NotFound from "../NotFound";
 import Home from "../Home/Index"
 import API from "../../utils/API"
+import Test from "../Test"
 // import Challenges from "../../pages/Challenges";
 // import Challenges from "../Dashboard/Challenges";
 // import CreateChallenge from "../../pages/CreateChallenge";
@@ -91,6 +92,7 @@ function App(props) {
           <Route exact path="/homepage" component={HomePage} />
           <Route exact path="/dashboard" component={() => <Dashboard displayName={displayName} />} />
           <Route exact path="/logout" component={Logout} />
+          {/* <Route exact path="/test" component={Test} /> */}
           <Route exact component={NotFound} />
         </Switch>
       </Router>

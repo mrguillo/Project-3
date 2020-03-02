@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ScrollableTabsButtonForce() {
+export default function ScrollableTabsButtonForce(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -73,7 +73,7 @@ export default function ScrollableTabsButtonForce() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <ThisWeekChart />
+        <ThisWeekChart data={props.data}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

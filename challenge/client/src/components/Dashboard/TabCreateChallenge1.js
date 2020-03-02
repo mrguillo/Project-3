@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import firebase from "../firebase"
 import API from "../../utils/API"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -48,8 +49,9 @@ export default function FullScreenDialog1(props) {
            console.log(err)
          }
          else{
-           setGoToDashboardGrid(true)
-           setOpen(false);
+          //  setGoToDashboardGrid(true)
+          //  setOpen(false);
+          window.location.reload();
          }
        })
   }
@@ -63,15 +65,8 @@ export default function FullScreenDialog1(props) {
   
   // FETCH UID (invitation code) from Mongoose
 
-async function doit() {
-  const fbId = firebase.getCurrentUserId();
-  console.log("The fbId process is ready => " + fbId);
-   
-  const mongooseId = await API.getUserInfo(fbId);
-  console.log("Ready with someTimeConsumingThing => " + mongooseId.data._id);
-}
- 
-doit();
+
+
 
 
   if(goToDashboardGrid===false){
@@ -114,7 +109,7 @@ doit();
             <ListItem button>
               <ListItemText
                 secondary="Challenge Name"
-                primary={props.data.challenge}
+                primary={props.data.name}
               />
             </ListItem>
             <Divider />
@@ -122,6 +117,12 @@ doit();
               <ListItemText
                 primary={props.data.rules}
                 secondary="Rules of the Challenge"
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemText
+                primary={props.data.qtyOfActPerWeek}
+                secondary="Quantity of necessary activities per week"
               />
             </ListItem>
             <Divider />
@@ -134,8 +135,8 @@ doit();
             <Divider />
             <ListItem button>
               <ListItemText
-                primary={"$ " + props.data.fee}
-                secondary="Weekly fee"
+                primary={"$ " + props.data.unitCost}
+                secondary="Weekly unit cost"
               />
             </ListItem>
           </List>

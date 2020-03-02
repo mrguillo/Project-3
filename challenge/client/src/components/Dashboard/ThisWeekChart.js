@@ -11,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 120 },
-  { id: 'rank', label: 'Rank', minWidth: 60 },
   {
     id: 'units',
     label: 'units',
@@ -20,36 +19,12 @@ const columns = [
     format: value => value.toLocaleString(),
   },
   {
-    id: 'balance',
-    label: 'balance',
-    minWidth: 100,
+    id: 'owes',
+    label: 'owes',
+    minWidth: 60,
     align: 'right',
-    format: value => "$ " + value.toLocaleString(),
+    format: value => value.toLocaleString(),
   }
-];
-
-function createData(name, rank, units) {
-    var weeks = 3;
-    const balance = (units * 100) - (weeks * 100);
-  return { name, rank, units, balance };
-}
-
-const rows = [
-  createData('Guillermo', '#1', 4),
-  createData('Mariana', '#2', 4),
-  createData('Luis', '#3', 3),
-  createData('Pepe', '#4', 3),
-  createData('Monica', '#5', 2),
-  createData('El Patas', '#6', 2),
-  createData('Jorge', '#7', 2),
-  createData('Claudia', '#8', 1),
-  createData('Esteban', '#9', 1),
-  createData('Daniela', '#10', 0),
-  createData('Paquito', '#11', 1),
-  createData('Lupe', '#12', 1),
-  createData('Edgar', '#13', 0),
-  createData('Tokyo', '#14', 0),
-  createData('Brazil', '#15', 0),
 ];
 
 const useStyles = makeStyles({
@@ -61,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ThisWeekData() {
+export default function ThisWeekData(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -74,6 +49,8 @@ export default function ThisWeekData() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const rows = props.data
 
   return (
     <Paper className={classes.root}>

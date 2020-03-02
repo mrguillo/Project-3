@@ -13,10 +13,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CustomizedRatings from "./Rating";
 import FormDialog from "./FormDialog";
 import Divider from "@material-ui/core/Divider";
+import Typography from '@material-ui/core/Typography';
 import firebase from "../firebase";
 import UserContext from "../../utils/UserContext"
 import Button from "react"
-
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
 export default function UserCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-   
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -65,14 +64,15 @@ export default function UserCard(props) {
           </IconButton>
         }
         title={props.username}
-        subheader="This week position: #1"
+        subheader={"Challenge: " + props.genObj.challenges.name}
       />
       <CustomizedRatings />
-      <Box textAlign="justify" m={1}>
-        Your balance: +$100
+      {/* <Typography component="div">
+      <Box textAlign="left" fontWeight="fontWeightLight" m={1} fontSize={14}>
+        {"Date created: " + props.genObj.creationDate}
       </Box>
+      </Typography> */}
       <Divider variant="middle" />
-
       <CardContent>
         <FormDialog genObj={props.genObj} addActivity={props.addActivity} />
       </CardContent>
@@ -88,6 +88,11 @@ export default function UserCard(props) {
           aria-expanded={expanded}
           aria-label="show more"
         ></IconButton>
+        <Typography component="div">
+      <Box textAlign="left" fontWeight="fontWeightLight" m={1} fontSize={14}>
+        {"Invitation code: " + props.genObj._id}
+      </Box>
+      </Typography>
       </CardActions>
     </Card>
   );

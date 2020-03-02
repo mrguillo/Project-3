@@ -41,6 +41,13 @@ export default function FullWidthGrid(props) {
         "creationDate": ""
     }
   )
+  const [activitiesInPeriod, setActivitiesInPeriod] = useState(
+    [{
+      "name":"",
+      "units":""
+    }
+    ]
+  )
 
   const [activitiesState, setActivitiesState] = useState(
     []
@@ -63,6 +70,13 @@ export default function FullWidthGrid(props) {
           console.log("res+++", res)
           setActivitiesState(res.data)
         })
+        if(results.data.challenges._id.length > 0){
+          console.log("results.data.challenges._id: ",results.data.challenges._id.length)
+          API.approvedInPeriod(results.data.challenges._id).then(results =>{
+            console.log("result.data en useEffect de grid: ",results.data.data)
+            setActivitiesInPeriod(results.data.data)
+          })
+        }
       })
       // setFirebaseState(val.uid)
       // console.log("val.uid en  useEffect: ",val.uid)
@@ -138,14 +152,12 @@ export default function FullWidthGrid(props) {
               <Grid item xs={12}>
                 <MenuAppBar />
               </Grid>
-              <Grid item xs={12}>
-                <MsgSnackbar />
-              </Grid>
+
               <Grid item xs={12} sm={4}>
                 <UserCard username={userInfoState.username} genObj={userInfoState} addActivity={addActivity}/>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <ChartTable />
+                <ChartTable data={activitiesInPeriod} />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <SimpleTabs />
