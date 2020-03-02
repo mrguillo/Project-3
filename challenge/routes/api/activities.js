@@ -11,6 +11,7 @@ router.route("/approval")
         challengeMeController.activityApproval
     )
 router.route("/unapproved")
+      .post(challengeMeController.unapproved)
       .get(challengeMeController.unapproved)
 
 router.route("/approvedinperiod/:challengeId")

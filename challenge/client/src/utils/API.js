@@ -4,6 +4,9 @@ export default {
     getUserInfo: function(userID) {
       return axios.get("/api/users/find/" + userID);
     },
+    getUserDetails: function(userID) {
+      return axios.get("/api/users/getuserinfo/" + userID);
+    },
     createUser: function(userData){
       return axios.post("/api/users/create", userData);
     },
@@ -20,7 +23,8 @@ export default {
       return axios.post("/api/activities/create",activityData)
     },
     unapprovedActivities: function(unapprovedInfo){
-      return axios.get("/api/activities/unapproved",unapprovedInfo)
+      console.log("Parámetros desde API en cliente:", unapprovedInfo)
+      return axios.post("/api/activities/unapproved",unapprovedInfo)
     },
     approveActivity: function(approvalInfo){
       return axios.post("/api/activities/approval", approvalInfo)
