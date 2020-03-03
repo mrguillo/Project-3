@@ -49,27 +49,6 @@ function App(props) {
   //Let's use the useState object to keep the firebase state
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
-  // function initApp() {
-  //     if (firebaseInitialized) {
-  //       // User is signed in.
-  //        displayName = firebaseInitialized.displayName;
-  //       var email = firebaseInitialized.email;
-  //       var photoURL = firebaseInitialized.photoURL;
-  //       var uid = firebaseInitialized.uid;
-  //       console.log(
-  //         displayName,
-  //         email,
-  //         photoURL,
-  //         uid
-  //       );
-  //     } else {
-  //       // User is signed out.
-  //       // ...
-  //       console.log("user is signed out");
-  //     }
-  // }
-  // initApp();
-
   //Let's use useEffect to run the isInitialized function before the page loads.
   useEffect(() => {
     firebase.isInitialized().then(val => {
@@ -99,7 +78,13 @@ function App(props) {
     </MuiThemeProvider>
   ) : (
     <div id="loader">
-      <CircularProgress />
+      <CircularProgress
+      size={50}
+      left={-20}
+      top={10}
+      status={'loading'}
+      style={{marginLeft: '50%', marginTop: '30%'}}
+       />
     </div>
   );
 }

@@ -71,7 +71,13 @@ export default function Dashboard(props) {
     case "userInfoState has not yet been set":
       return(
         <div id="loader">
-          <CircularProgress/>
+          <CircularProgress
+      size={50}
+      left={-20}
+      top={10}
+      status={'loading'}
+      style={{marginLeft: '50%', marginTop: '30%'}}
+       />
         </div>
         )
     case "The user does not have challenges":
