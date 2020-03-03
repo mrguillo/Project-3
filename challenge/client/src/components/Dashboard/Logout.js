@@ -61,6 +61,9 @@ function Logout(props) {
 				<Typography component="h1" variant="h5">
 					Hello { firebase.getCurrentUsername() }
 				</Typography>
+				{/* <Typography component="h1" variant="h5">
+					Your favorite fruit: {fruit ? `"${fruit}"` : <CircularProgress size={20} />}
+				</Typography> */}
 				<Button type="submit" fullWidth variant="contained" color="secondary" onClick={logout} className={classes.submit}>
 					Logout
         </Button>

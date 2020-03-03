@@ -31,6 +31,15 @@ export default function Dashboard(props) {
     })
   },[])
 
+  // const unapprovedActivities = (challengeId) => {
+  //   console.log("Running unapproved activities with challengeId: ", challengeId._id)
+  //   API.unapprovedActivities(userInfoState.challenges._id)
+  //       .then(function(results){
+  //         console.log("results of unapproved: ", results)
+  //       })
+  // }
+
+
   var challengeCondition = false
   if(!firebase.getCurrentUsername()){
     challengeCondition = "Not logged in firebase"
@@ -62,13 +71,7 @@ export default function Dashboard(props) {
     case "userInfoState has not yet been set":
       return(
         <div id="loader">
-          <CircularProgress
-            size={50}
-            left={-20}
-            top={10}
-            status={'loading'}
-            style={{marginLeft: '50%', marginTop: '30%'}}
-          /> 
+          <CircularProgress/>
         </div>
         )
     case "The user does not have challenges":

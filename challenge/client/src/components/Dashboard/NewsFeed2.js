@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import ApprovedByChip from './ApprovedChip';
 import ApproveBtn from './ApproveButton';
 import API from "../../utils/API"
-var moment = require("moment");
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,18 +35,27 @@ export default function NewsFeed(props) {
     ""
     )
 
+
   API.getUserDetails(props.username).then(results => {
+    console.log("props.username", props.username)
+    console.log("results.data:", results.data.username)
     setName(results.data.username)
   })
+  
+
+
+
+
+
+
+
 
 
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar aria-label="recipe">
-            {userName[0]}
-          </Avatar>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
           primary={userName}
@@ -61,7 +69,7 @@ export default function NewsFeed(props) {
               >
                 {props.description}
               </Typography>
-              {" — Posted on " + moment(props.creationDate).format("DD/MM/YYYY - HH:mm:ss")}
+              {" — Posted on " + props.creationDate}
             </React.Fragment>
           }
         />

@@ -9,8 +9,6 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ThisWeekChart from './ThisWeekChart';
-import OverallChart from './OverallChart';
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,7 +76,7 @@ export default function ScrollableTabsButtonForce(props) {
         <ThisWeekChart data={props.data}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <OverallChart data={props.overall}/>
+        Item Two
       </TabPanel>
     </div>
   );
