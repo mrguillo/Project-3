@@ -21,11 +21,11 @@ export default function ApprovedBtn(props) {
 
       {/* Set status="approved" */}
 
-      <Button variant="outlined" color="primary" _id={props._id} status={props.status} onClick={() => props.approveActivity(props._id)}>
+      <Button variant="outlined" color="primary" _id={props._id} status={props.status} onClick={() => props.approveActivity(props._id,"approved")}>
         Approve
       </Button>
 
-      <Button variant="outlined" color="secondary" href="#contained-buttons">
+      <Button variant="outlined" color="secondary" _id={props._id} status={props.status} onClick={() => props.approveActivity(props._id,"rejected")}>
         Reject
       </Button>
     </div>

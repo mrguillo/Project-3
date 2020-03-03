@@ -29,7 +29,7 @@ module.exports = {
           if(err){
             res.status(400).json(err)
           }
-          console.log("Result of findUser: ",userInfo)
+          console.log("Result of findUser")
           res.json(userInfo)
         }
       )
@@ -37,7 +37,6 @@ module.exports = {
   getUserInfo: function(req,res){
     console.log("--------------------------------")
     console.log("Running getUserInfo")
-    console.log("req.body", req.body)
     db.Users
       .findOne({_id: req.params.id})
       .populate({
@@ -50,7 +49,7 @@ module.exports = {
           if(err){
             res.status(400).json(err)
           }
-          console.log("Result of getUserInfo: ",userInfo)
+          console.log("Result of getUserInfo")
           res.json(userInfo)
         }
       )

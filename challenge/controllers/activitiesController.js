@@ -1,22 +1,17 @@
 const db = require("../models");
 var moment = require("moment");
 
-function overallWhile(res,challengeInfo,activitiesOwedInWeek,overAllInfo){
-    challengeInfo.participants.map(function(participant){
-        console.log("//////////////////////////////////")
-        console.log("Nuevo participante")
-        console.log("participant.username: ",participant.username)
-        console.log("//////////////////////////////////")
+function overallWhile(res,challengeInfo,activitiesOwedInWeek){
+    var overAllInfo = []
+    challengeInfo.participants.map(function(participant,index){
+        console.log("Nuevo participante: ",participant.username)
+        console.log("--------------------------------------------")
         startingDate = moment(challengeInfo.startingDate)
         desiredDate = moment(Date.now())
         startOfWeek = startingDate.set({hour:0,minute:0,second:0,millisecond:0})
         endOfWeek = startOfWeek.clone().add(6,"days").set({hour:23,minute:59,second:59,millisecond:999})    
         activitiesOwedInWeek = 0
-        do{
-          console.log("****************************************")
-          console.log("Nuevo loop")
-          console.log("startOfWeek: ",startOfWeek)
-          console.log("endOfWeek: ",endOfWeek)
+          do{
           db.Activities
           .find({creationDate: {$gte: startOfWeek.toDate(),$lte: endOfWeek.toDate()},status:"approved",owner: participant._id})
           .exec(function(err,activitiesInWeek){
@@ -24,6 +19,10 @@ function overallWhile(res,challengeInfo,activitiesOwedInWeek,overAllInfo){
               res.status(422).send("There was an error while trying to recover activities for the week")
             }
             else{
+              console.log("****************************************")
+              console.log("Nuevo loop de ",participant.username)
+              console.log("startOfWeek: ",startOfWeek)
+              console.log("endOfWeek: ",endOfWeek)
               activitiesOwedInWeek = activitiesOwedInWeek + (challengeInfo.qtyOfActPerWeek - activitiesInWeek.length)
               startOfWeek = startOfWeek.add(7,"days")
               endOfWeek = endOfWeek.add(7,"days")
@@ -36,14 +35,16 @@ function overallWhile(res,challengeInfo,activitiesOwedInWeek,overAllInfo){
                     owes: "$" + (activitiesOwedInWeek * challengeInfo.unitCost)
                   }
                   overAllInfo.push(participantInfo)
-                  console.log("Results of overallInfo: ", overAllInfo)
-                  res.json({overallData: overAllInfo})
+                  console.log("Results of overallInfo dentro del do while: ", overAllInfo)
+                  console.log("index de do while: ",index)
+                }
               }
-            }
-          })
-        }
-        while(desiredDate.isAfter(endOfWeek))        
-      })
+            })
+          }
+          while(desiredDate.isAfter(endOfWeek))
+        })
+        console.log("overAllInfo justo antes de mandarlo en res.json: ",overAllInfo)     
+        res.json({overallData: overAllInfo})
 }
 
 module.exports = {
@@ -108,17 +109,18 @@ module.exports = {
         console.log("--------------------------------")
         console.log("Running activityApproval!")
         db.Activities
-          .findOne({_id:req.body.activityId}, function(err,activityInfo){
+          .findOne({_id:req.body.id}, function(err,activityInfo){
             if(err){
               res.status(422).send("The activity was not found")
             }
             else{
               db.Activities
-                .update({_id: req.body.activityId},{$set: {status: req.body.status}},function(err,results){
+                .update({_id: req.body.id},{$set: {status: req.body.status}},function(err,results){
                   if(err){
                     res.status(422).send("We were unable to update the activity's status")
                   }
                   else{
+                    console.log("Results of running activityApproval: ", results)
                     res.send(results)
                   }
                 })
@@ -127,17 +129,16 @@ module.exports = {
       },
       unapproved: function(req,res){
         console.log("--------------------------------")
-        console.log("Running unapproved!")
+        console.log("Running unapproved!", req.body)
         db.Users
           .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
             if(err || userInfo === null){
               res.status(422).send("User not found!")
             }
             else{
+              console.log("Si encontro usuario en unapproved: ",userInfo)
               db.Activities
-                // .find({challenge:req.body.challengeId, status: "created",owner: {$ne: userInfo._id}},function(err,results){
-                  //Temporalmente se comento la linea de arriba para probar en el front pero es la definitiva
-                .find({challenge:req.body.challengeId, status: "created"},function(err,results){
+                .find({challenge:req.body.challenges._id, status: "created",owner: {$ne: userInfo._id}},function(err,results){
                   if(err){
                     res.status(422).send("An error ocurred while querying the Database for all challenges with created status")
                   }
@@ -208,7 +209,7 @@ module.exports = {
             })
         }
       },
-      overAll: function(req,res){
+      overAll: function(req, res){
         console.log("--------------------------------")
         console.log("Running overAll!")
         var overAllInfo = []
@@ -234,7 +235,7 @@ module.exports = {
                 }
                 else{
                     var whileInfo = await overallWhile(res,challengeInfo,activitiesOwedInWeek,overAllInfo)
-                    console.log("whileInfo: ",whileInfo)
+                    // console.log("whileInfo: ",whileInfo)
                 }
               }
             })

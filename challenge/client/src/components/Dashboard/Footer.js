@@ -54,7 +54,7 @@ export default function Footer() {
       </Container> */}
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Typography variant="body1">Our sticky footer can be found here.</Typography>
+          <Typography variant="body1">Challenge yourself!</Typography>
           <Copyright />
         </Container>
       </footer>

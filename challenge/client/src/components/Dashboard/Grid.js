@@ -69,6 +69,7 @@ export default function FullWidthGrid(props) {
           API.approvedInPeriod(userInfoResults.data.challenges._id).then(approvedInPresults =>{
             setActivitiesInPeriod(approvedInPresults.data.data)
             API.overall(userInfoResults.data.challenges._id).then(overallResults =>{
+              console.log("overallResults: ",overallResults)
               setOverallInfo(overallResults.data.overallData)
               API.unapprovedActivities(userInfoResults.data).then(res => {
               setActivitiesState(res.data)
@@ -80,64 +81,36 @@ export default function FullWidthGrid(props) {
     })
   },[])
 
-  // useEffect(() => {
-  // },[firebaseState]);
-
-
-
   const addActivity = id => {
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
         setUserInfoState(results.data)
-        // console.log("results:::::::", results.data)
-        console.log("userInfoState.firebaseId:::", results.data.firebaseId)
-        console.log("userInfoState.ownedChallenges:::", results.data.ownedChallenges)
-        // API.unapprovedActivities({"firebaseId":userInfoState.firebaseId, "challenge":userInfoState.ownedChallenges}).then(res => {
-          console.log("results.data----", results.data)
-          console.log("results.data.challenges._id", results.data.challenges._id)
+        console.log("results.data dentro de addActivity: ",results.data)
           API.unapprovedActivities(results.data).then(res => {
-          // setUserInfoState(results.data)
-          console.log("Brought Unapproved Activities")
-          console.log("res+++", res)
+            console.log("res de unapproved dentro de addActivity: ",res)
           setActivitiesState(res.data)
         })
       })
-      // setFirebaseState(val.uid)
-      // console.log("val.uid en  useEffect: ",val.uid)
     })
   }
 
-
-
-
-  const approveActivity = id => {
-    API.approveActivity({id}).then(results => {
-      console.log("corriendo approveActivity", results)
+  const approveActivity = (id,status) => {
+    API.approveActivity({id,status}).then(approvalResults => {
+      API.unapprovedActivities(userInfoState).then(res => {
+        setActivitiesState(res.data)
+        window.location.reload();
+      })
     })
-    // const activities = activitiesState.filter(activity => activity._id !== id);
-    // setActivitiesState({ activities })
 
     firebase.isInitialized().then(val => {
       API.getUserInfo(val.uid).then(results => {
         setUserInfoState(results.data)
-        // console.log("results:::::::", results.data)
-        console.log("userInfoState.firebaseId:::", results.data.firebaseId)
-        console.log("userInfoState.ownedChallenges:::", results.data.ownedChallenges)
-        // API.unapprovedActivities({"firebaseId":userInfoState.firebaseId, "challenge":userInfoState.ownedChallenges}).then(res => {
-          console.log("results.data----", results.data)
-          console.log("results.data.challenges._id", results.data.challenges._id)
           API.unapprovedActivities(results.data).then(res => {
-          // setUserInfoState(results.data)
-          console.log("Brought Unapproved Activities")
-          console.log("res+++", res)
           setActivitiesState(res.data)
         })
       })
-      // setFirebaseState(val.uid)
-      // console.log("val.uid en  useEffect: ",val.uid)
     })
   };
-
 
   return (
     <React.Fragment>

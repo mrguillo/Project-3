@@ -49,7 +49,7 @@ export default function FormDialog(props) {
   const handleClose = () => {
     console.log("activityState", activityState)
     API.createActivity(activityState).then(results => {
-      console.log("corriendo createActivity", results)
+      console.log("Resultados de createActivity", results)
       props.addActivity()
     })
     setOpen(false);
