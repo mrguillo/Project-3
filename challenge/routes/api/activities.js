@@ -1,23 +1,17 @@
 const router = require("express").Router();
-const challengeMeController = require("../../controllers/challengeMeController");
+const activitiesController = require("../../controllers/activitiesController");
 
 // Matches with "/api/books"
 router.route("/create")
-  .post(
-    challengeMeController.createActivity
-    )
+      .post(activitiesController.createActivity)
 router.route("/approval")
-    .post(
-        challengeMeController.activityApproval
-    )
+      .post(activitiesController.activityApproval)
 router.route("/unapproved")
-      .post(challengeMeController.unapproved)
-      .get(challengeMeController.unapproved)
-
+      .get(activitiesController.unapproved)
+      .post(activitiesController.unapproved)
 router.route("/approvedinperiod/:challengeId")
-    .get(challengeMeController.approvedInPeriod)
-
+      .get(activitiesController.approvedInPeriod)
 router.route("/overall/:challengeId")
-      .get(challengeMeController.overAll)
+      .get(activitiesController.overAll)
 
 module.exports = router;

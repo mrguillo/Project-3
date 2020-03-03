@@ -1,14 +1,12 @@
 const router = require("express").Router();
-const challengeMeController = require("../../controllers/challengeMeController");
+const userController = require("../../controllers/userController")
 
 // Matches with "/api/books"
 router.route("/create")
-  .post(challengeMeController.createUser)
-
+      .post(userController.createUser)
 router.route("/find/:firebaseId")
-  .get(challengeMeController.findUser)
-
+      .get(userController.findUser)
 router.route("/getuserinfo/:id")
-  .get(challengeMeController.getUserInfo)
+      .get(userController.getUserInfo)
 
 module.exports = router;

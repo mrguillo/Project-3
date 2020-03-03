@@ -1,17 +1,14 @@
 const router = require("express").Router();
-const challengeMeController = require("../../controllers/challengeMeController");
+const challengeController = require("../../controllers/challengeController");
 
 // Matches with "/api/books"
 router.route("/create")
-  .post(
-    challengeMeController.createChallenge
-    )
+      .post(challengeController.createChallenge)
 router.route("/join")
-  .post(challengeMeController.joinChallenge)
-
+      .post(challengeController.joinChallenge)
 router.route("/find/:challengeId")
-  .get(challengeMeController.findChallenge)
+      .get(challengeController.findChallenge)
 router.route("/start")
-  .post(challengeMeController.startChallenge)
+      .post(challengeController.startChallenge)
 
 module.exports = router;
