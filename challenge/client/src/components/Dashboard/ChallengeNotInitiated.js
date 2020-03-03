@@ -60,7 +60,7 @@ export default function StickyFooter() {
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
           {"Please be patient and wait until your Challenge manager "}
-          {"initiate it."}
+          {"initiates it."}
         </Typography>
         <div className={classes.root}>
           <HomeIcon style={{ color: green[500] }} />
@@ -75,7 +75,7 @@ export default function StickyFooter() {
       <footer className={classes.footer}>
         <Container maxWidth="sm">
           <Typography variant="body1">
-            Our sticky footer can be found here.
+            Challeneg yourself!
           </Typography>
           <Copyright />
         </Container>

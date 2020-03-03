@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -40,6 +40,18 @@ export default function OverallChart(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsValues, setRowsValues] = React.useState([
+    {
+        name: "Participant 1",
+        activitiesOwed: 3,
+        owes: "$90"
+    },
+    {
+      name: "Participant 2",
+      activitiesOwed: 2,
+      owes: "$60"
+    }
+  ])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,7 +62,17 @@ export default function OverallChart(props) {
     setPage(0);
   };
 
-  const rows = props.data
+
+  useEffect(()=>{
+    if(!props.data || props.data === null || props.data === [] || props.data.length === 0){
+      console.log("No cambio el valor de rows de overall")
+    }
+    else{
+      console.log("props.data dentro de else",props.data)
+      setRowsValues(props.data)
+    }
+  },[])
+
 
   return (
     <Paper className={classes.root}>
@@ -70,7 +92,7 @@ export default function OverallChart(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+            {rowsValues.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {columns.map(column => {
@@ -90,7 +112,7 @@ export default function OverallChart(props) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rowsValues.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

@@ -60,16 +60,13 @@ module.exports = {
               res.status(422).send("User not found!")
             }
             else{
-              if(userInfo.challenges._id.toString() !== req.body.challengeId.toString()){
-                res.status(422).send("The challenge that was specified is not part of the user's challenges array")
-              }
-              else{
                 db.Challenges
-                  .findOne({_id: req.body.challengeId},function(err,challengeInfo){
+                  .findOne({_id: userInfo.challenges},function(err,challengeInfo){
                     if(err){
                       res.status(422).send("Challenge not found!")
                     }
                     else{
+                      console.log("challengeInfo JERO", challengeInfo)
                       var userInChallenge = false
                       for(i=0;i<challengeInfo.participants.length;i++){
                         if(challengeInfo.participants[i]._id.toString() === userInfo._id.toString()){
@@ -101,7 +98,6 @@ module.exports = {
                       }
                     }
                   })
-              }
             }
           })
       },

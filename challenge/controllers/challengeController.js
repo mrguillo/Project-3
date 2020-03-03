@@ -38,7 +38,7 @@ module.exports = {
     },
     joinChallenge: function(req,res){
         console.log("--------------------------------")
-        console.log("Running joinChallenge",req.body)
+        console.log("Running joinChallenge")
         db.Users
           .findOne({firebaseId: req.body.firebaseId},function(err,userInfo){
             if(err){
@@ -51,21 +51,27 @@ module.exports = {
                   console.lof(err);
                   res.status(422).send("Invalid invitation code")
                 }
-                db.Users
-                  .update({_id:userInfo._id},{$set:{challenges:challengeInfo._id}})
-                  .then(updateUserResult =>{
-                    db.Challenges
-                      .update({_id:challengeInfo._id},{$push:{participants:userInfo._id}})
-                      .then(updateChallengeResult =>{
-                        res.json(
-                          {
-                            userUpdate: updateUserResult,
-                            challengeUpdate: updateChallengeResult
-                          }
-                        )
-                      })
-                  }
-                  )
+                else if(challengeInfo.status !== "created"){
+                  console.log("Error: The challenge is already started")
+                  res.status(422).send("The challenge is already started")
+                }
+                else{
+                  db.Users
+                    .update({_id:userInfo._id},{$set:{challenges:challengeInfo._id}})
+                    .then(updateUserResult =>{
+                      db.Challenges
+                        .update({_id:challengeInfo._id},{$push:{participants:userInfo._id}})
+                        .then(updateChallengeResult =>{
+                          res.json(
+                            {
+                              userUpdate: updateUserResult,
+                              challengeUpdate: updateChallengeResult
+                            }
+                          )
+                        })
+                    }
+                    )
+                }
             })
         })
     },

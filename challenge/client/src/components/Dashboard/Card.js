@@ -90,7 +90,7 @@ export default function UserCard(props) {
         ></IconButton>
         <Typography component="div">
       <Box textAlign="left" fontWeight="fontWeightLight" m={1} fontSize={14}>
-        {"Invitation code: " + props.genObj._id}
+        {"Invitation code: " + props.genObj.challenges._id}
       </Box>
       </Typography>
       </CardActions>

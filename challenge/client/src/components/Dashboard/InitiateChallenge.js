@@ -52,10 +52,15 @@ export default function InitiateChallenge(props) {
           </Typography>
           <Typography variant="h5" component="h2" gutterBottom>
             {/* {props.challengeInfo.owner.username + " :"} */}
-            {"Challenge name:  "}
+            {"Challenge name:  " + props.challengeInfo.name}
           </Typography>
           <Typography variant="h5" component="h2" gutterBottom>
             {"So far, this is the list of joined friends:  "}
+            {props.challengeInfo.participants.map(participant=>{
+              return (<Typography variant="h6" component="h6" gutterBottom>
+                {participant.username}
+              </Typography>)
+            })}
             {/* {props} */}
           </Typography>
 
